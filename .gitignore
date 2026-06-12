@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Secrets – NEVER commit these
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Local fallback data (dev only)
+data/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

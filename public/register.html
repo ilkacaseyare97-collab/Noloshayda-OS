@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Is Diiwaangeli – Noloshayda</title>
+<meta name="theme-color" content="#F59E0B">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amber:#F59E0B; --amber-h:#D97706; --amber-pale:#FFF8E7;
+  --teal:#0D7377; --teal-mid:#14A3A8;
+  --bg:#F5F5F4; --surface:#FFFFFF; --border:#E7E5E4;
+  --text:#1C1917; --text2:#57534E; --text3:#A8A29E; --red:#EF4444; --red-pale:#FEF2F2;
+  --r:14px; --r3:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:24px 16px;
+}
+.wrap{width:100%;max-width:420px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:28px;justify-content:center}
+.logo{
+  width:48px;height:48px;background:linear-gradient(145deg,#FBBF24,#D97706);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;box-shadow:0 4px 14px rgba(245,158,11,.35)
+}
+.brand h1{font-family:'Lora',serif;font-size:22px;font-weight:700}
+.brand p{font-size:12px;color:var(--text3);margin-top:2px;text-align:center}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:28px 26px;box-shadow:0 8px 32px rgba(0,0,0,.06)
+}
+.hero-mini{
+  border-radius:var(--r);overflow:hidden;margin-bottom:22px;padding:18px 20px;
+  background:linear-gradient(130deg,#166534 0%,#16A34A 60%,#0D7377 100%);
+  color:#fff;text-align:center
+}
+.hero-mini .em{font-size:32px;margin-bottom:6px}
+.hero-mini h2{font-family:'Lora',serif;font-size:18px;font-weight:700}
+.hero-mini p{font-size:12px;opacity:.75;margin-top:4px}
+.lbl{font-size:11.5px;font-weight:700;color:var(--text2);margin-bottom:6px;margin-top:14px}
+.lbl:first-of-type{margin-top:0}
+.inp{
+  width:100%;border:1px solid var(--border);border-radius:var(--r3);
+  padding:11px 13px;font-family:inherit;font-size:14px;color:var(--text);
+  background:var(--bg);outline:none;transition:border-color .2s
+}
+.inp:focus{border-color:var(--amber);background:#fff}
+.hint{font-size:11px;color:var(--text3);margin-top:4px}
+.btn{
+  width:100%;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--amber),#D97706);color:#fff;border:none;
+  border-radius:10px;padding:12px 20px;font-family:inherit;font-size:14px;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 14px rgba(245,158,11,.35);transition:transform .15s
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.err{
+  display:none;margin-top:14px;padding:10px 12px;border-radius:var(--r3);
+  background:var(--red-pale);border:1px solid #FECACA;color:var(--red);
+  font-size:12.5px;font-weight:600
+}
+.err.show{display:block}
+.foot{margin-top:18px;text-align:center;font-size:13px;color:var(--text2)}
+.foot a{color:var(--amber-h);font-weight:700;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="logo">🕌</div>
+    <div>
+      <h1>Noloshayda</h1>
+      <p>Islamic Life OS</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hero-mini">
+      <div class="em">✨</div>
+      <h2>Abuur akoon cusub</h2>
+      <p>Hal mar is diiwaangeli, kadib gal mar kasta</p>
+    </div>
+
+    <form id="register-form">
+      <label class="lbl" for="name">Magacaaga</label>
+      <input class="inp" id="name" name="name" autocomplete="name" placeholder="tusaale: Cabdullaahi" required>
+
+      <label class="lbl" for="username">Username</label>
+      <input class="inp" id="username" name="username" autocomplete="username" placeholder="tusaale: cabdullaahi" required>
+      <div class="hint">Ugu yaraan 3 xaraf · xarfo yaryar, tiro, . _ -</div>
+
+      <label class="lbl" for="password">Password</label>
+      <input class="inp" id="password" name="password" type="password" autocomplete="new-password" placeholder="Ugu yaraan 6 xaraf" required>
+
+      <label class="lbl" for="password2">Ku celi Password-ka</label>
+      <input class="inp" id="password2" name="password2" type="password" autocomplete="new-password" placeholder="••••••••" required>
+
+      <div class="err" id="err"></div>
+      <button class="btn" type="submit" id="submit-btn">🚀 Abuur Akoon</button>
+    </form>
+
+    <div class="foot">
+      Hore u leedahay akoon? <a href="/login">Gal halkan</a>
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+const form = document.getElementById('register-form');
+const err = document.getElementById('err');
+const btn = document.getElementById('submit-btn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  err.classList.remove('show');
+  btn.disabled = true;
+  btn.textContent = 'Sugaya...';
+
+  const payload = {
+    name: document.getElementById('name').value,
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value,
+    password2: document.getElementById('password2').value
+  };
+
+  try {
+    await NoloAuth.register(payload);
+    window.location.href = NoloAuth.appUrl();
+  } catch (ex) {
+    err.textContent = ex.message;
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = '🚀 Abuur Akoon';
+  }
+});
+</script>
+</body>
+</html>
