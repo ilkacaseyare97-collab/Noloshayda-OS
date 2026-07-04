@@ -300,15 +300,86 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.6}
 .sched-hour-row.has-ev{background:rgba(245,158,11,.02)}
 .sched-hour-label{font-size:11px;color:var(--text3);font-weight:600;padding:10px 10px 0 0;text-align:right;line-height:1}
 .sched-hour-body{padding:6px 0 6px 10px;border-left:1px solid var(--border-l)}
-.sched-ev-item{border-radius:0 var(--r3) var(--r3) 0;padding:9px 12px;margin-bottom:5px;cursor:pointer;transition:all .15s}
+.sched-ev-item{border-radius:var(--r3);padding:9px 12px;margin-bottom:5px;cursor:pointer;transition:all .15s}
 .sched-ev-item:hover{transform:translateX(3px);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .sched-ev-title{font-size:13px;font-weight:700;margin-bottom:2px}
 .sched-ev-sub{font-size:11px;color:var(--text3)}
 .sched-empty-slot{font-size:11.5px;color:var(--text4);padding:8px 0;cursor:pointer;transition:color .15s}
 .sched-empty-slot:hover{color:var(--amber)}
-.ev-check-btn{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;cursor:pointer;transition:all .2s;color:var(--text3)}
-.ev-check-btn:hover{border-color:var(--green);color:var(--green)}
-.ev-check-btn.ev-done{background:var(--green);border-color:var(--green);color:#fff}
+.ev-check-btn{width:24px;height:24px;border-radius:8px;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;cursor:pointer;transition:all .2s;color:var(--text3)}
+.ev-check-btn:hover{border-color:var(--amber);color:var(--amber)}
+.ev-check-btn.ev-done{background:var(--amber);border-color:var(--amber);color:#fff}
+
+/* ── JADWAL SUB-TABS + VIEWS ── */
+.jtabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--border);overflow-x:auto}
+.jtb{height:42px;padding:0 4px;margin-right:18px;border:none;background:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.jtb.active{color:var(--text);border-bottom-color:var(--amber)}
+.jview{display:none}
+.jview.active{display:block}
+
+/* ── BILAHA (3-Month Goals) ── */
+.mo-card{border-radius:var(--r);padding:18px 20px;margin-bottom:14px;border:1px solid var(--border);position:relative;overflow:hidden}
+.mo-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px}
+.mo-card.mo-blue{background:linear-gradient(135deg,var(--blue-pale),#fff)}
+.mo-card.mo-blue::before{background:var(--blue)}
+.mo-card.mo-green{background:linear-gradient(135deg,var(--green-pale),#fff)}
+.mo-card.mo-green::before{background:var(--green)}
+.mo-card.mo-purple{background:linear-gradient(135deg,var(--purple-pale),#fff)}
+.mo-card.mo-purple::before{background:var(--purple)}
+.mo-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:6px}
+.mo-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;outline:none}
+.mo-desc{font-size:12.5px;color:var(--text2);line-height:1.5;outline:none}
+.mo-title[contenteditable="true"]:focus,.mo-desc[contenteditable="true"]:focus{background:rgba(255,255,255,.6);border-radius:6px;box-shadow:0 0 0 2px var(--amber-light)}
+
+/* ── MASTER SCHEDULE — vertical nested accordion tree (12 Week → 7 Day layers) ── */
+.ms-overview{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--amber-pale),#fff);border:1px solid var(--amber-light);border-radius:var(--r);padding:14px 18px;margin-bottom:16px}
+.ms-ov-ring{flex-shrink:0}
+.ms-ov-txt{flex:1}
+.ms-ov-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--amber-h);margin-bottom:3px}
+.ms-ov-val{font-size:13px;color:var(--text2)}
+
+.mstree{display:flex;flex-direction:column;gap:9px}
+
+.mstree-week{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface);transition:border-color .2s,box-shadow .2s}
+.mstree-week.open{border-color:var(--amber-light);box-shadow:0 6px 20px rgba(245,158,11,.1)}
+.mstree-week-h{display:flex;align-items:center;gap:11px;padding:14px 16px;cursor:pointer;transition:background .15s}
+.mstree-week-h:hover{background:var(--amber-pale)}
+.mstree-week.open .mstree-week-h{background:linear-gradient(135deg,var(--amber-pale),#FFF8E7);border-bottom:1px solid var(--amber-light)}
+.mstree-chevron{font-size:11px;color:var(--text4);transition:transform .22s ease;flex-shrink:0;display:inline-block}
+.mstree-week.open>.mstree-week-h .mstree-chevron{transform:rotate(90deg);color:var(--amber-h)}
+.mstree-week-ic{font-size:17px;flex-shrink:0}
+.mstree-week-title{flex:1;font-size:14px;font-weight:700;color:var(--text)}
+.mstree-week-sub{font-size:10.5px;color:var(--text3);margin-top:1px;font-weight:500}
+.mstree-week-badge{font-size:10.5px;font-weight:700;color:var(--amber-h);background:#fff;border:1px solid var(--amber-light);padding:3px 10px;border-radius:20px;flex-shrink:0}
+
+.mstree-week-body{padding:10px 14px 14px 20px;margin-left:24px;border-left:2px solid var(--amber-light);display:flex;flex-direction:column;gap:7px}
+
+.mstree-day{border:1px solid var(--border-l);border-radius:var(--r3);overflow:hidden;background:var(--bg);transition:border-color .2s}
+.mstree-day.open{border-color:var(--text3);background:var(--surface);box-shadow:0 3px 12px rgba(87,83,78,.08)}
+.mstree-day-h{display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;transition:background .15s}
+.mstree-day-h:hover{background:var(--border-l)}
+.mstree-day.open .mstree-day-h{background:linear-gradient(135deg,#F5F5F4,#E7E5E4);border-bottom:1px solid var(--text4)}
+.mstree-day .mstree-chevron{font-size:9.5px}
+.mstree-day.open>.mstree-day-h .mstree-chevron{transform:rotate(90deg);color:var(--text2)}
+.mstree-day-title{flex:1;font-size:12.5px;font-weight:700;color:var(--text2)}
+.mstree-day-badge{font-size:9.5px;font-weight:700;color:var(--text2);background:var(--border-l);padding:2px 8px;border-radius:20px;flex-shrink:0}
+
+.mstree-day-body{padding:11px 12px 12px 20px;margin-left:14px;border-left:2px solid var(--text4)}
+.mstree-add{display:flex;gap:6px;margin-bottom:9px}
+.mstree-add input{flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:7px;font-family:inherit;font-size:12px;background:var(--surface);outline:none}
+.mstree-add input:focus{border-color:var(--text3)}
+.mstree-add button{padding:8px 14px;border:none;border-radius:7px;background:var(--amber);color:#fff;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:background .15s}
+.mstree-add button:hover{background:var(--amber-h)}
+
+.ms-row{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid var(--border-l);border-radius:var(--r3);margin-bottom:6px;background:var(--surface);transition:all .15s}
+.ms-row.done{background:var(--green-pale);border-color:var(--green-mid)}
+.ms-cb{width:19px;height:19px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10.5px;transition:all .15s}
+.ms-row.done .ms-cb{background:var(--green);border-color:var(--green);color:#fff}
+.ms-topic{flex:1;font-size:12.5px;font-weight:600;color:var(--text)}
+.ms-row.done .ms-topic{text-decoration:line-through;color:var(--text3)}
+.ms-del{background:none;border:none;cursor:pointer;opacity:.35;font-size:12.5px;flex-shrink:0}
+.ms-del:hover{opacity:1}
+.ms-day-empty{font-size:11.5px;color:var(--text4);padding:6px 2px 10px}
 
 
 /* ── NADAFADA ── */
@@ -562,6 +633,39 @@ body.editing .ed-add-row{display:flex}
 .edit-badge{display:none;position:fixed;bottom:20px;right:20px;background:var(--amber);color:#fff;border-radius:30px;padding:10px 18px;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(245,158,11,.4);z-index:999;align-items:center;gap:8px}
 body.editing .edit-badge{display:flex}
 
+/* ── PAGE CHROME: Tagging Header / Meta-Data / Archive / Log ── */
+.pg-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em;margin-bottom:10px}
+.pg-tag.teal{background:var(--teal-pale);color:var(--teal)}
+.pg-tag.blue{background:var(--blue-pale);color:#1E40AF}
+.pg-tag.purple{background:var(--purple-pale);color:#6D28D9}
+.pg-tag.green{background:var(--green-pale);color:#166534}
+.pg-tag.red{background:var(--red-pale);color:#B91C1C}
+.pg-tag.slate{background:#F1F5F9;color:#334155}
+.pg-tag.amber{background:var(--amber-pale);color:#92400E}
+
+.pg-meta{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:11.5px;color:var(--text3);margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--border-l)}
+.pg-meta b{color:var(--text2);font-weight:600}
+.pg-status{display:inline-flex;align-items:center;gap:5px;cursor:pointer;padding:3px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--border);font-weight:600;color:var(--text2);transition:.15s;font-size:11.5px;user-select:none}
+.pg-status:hover{border-color:var(--amber);color:var(--amber-h)}
+.pg-status .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.pg-status.paused .dot{background:var(--text3)}
+.pg-status.done .dot{background:var(--blue)}
+
+.pg-archive{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px;margin-bottom:20px}
+.pg-archive-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-right:2px;white-space:nowrap}
+.pg-arc-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--border);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:.15s;white-space:nowrap}
+.pg-arc-chip:hover{border-color:var(--amber);color:var(--amber-h);background:var(--amber-pale)}
+
+.pg-log{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px 6px;margin-top:26px}
+.pg-log-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pg-log-title{font-family:'Lora',serif;font-size:14.5px;font-weight:700;color:var(--text)}
+.pg-log-empty{font-size:12px;color:var(--text3);padding:10px 0}
+.pg-log-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border-l);font-size:12.5px}
+.pg-log-item:last-child{border-bottom:none}
+.pg-log-time{color:var(--text3);font-size:11px;white-space:nowrap;min-width:42px;padding-top:1px}
+.pg-log-txt{color:var(--text2)}
+.pg-log-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:5px;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -597,8 +701,6 @@ body.editing .edit-badge{display:flex}
     <div class="sb-item" onclick="go('hawlaha',this)"><span class="ic">✅</span><span class="sb-item-txt" data-ed contenteditable="false">Hawlaha</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#166534,#22C55E)"><span style="font-size:22px">✅</span>Hawlaha</div><div class="sb-preview-body">Tasks-kaaga maanta<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
     <div class="sb-item" onclick="go('qoraal',this)"><span class="ic">📔</span><span class="sb-item-txt" data-ed contenteditable="false">Qoraallada</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#92400E,#F59E0B)"><span style="font-size:22px">📔</span>Qoraallada</div><div class="sb-preview-body">Xasuusqorkaaga maalinle<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
     <div class="sb-item" onclick="go('cibaado',this)"><span class="ic">🤲</span><span class="sb-item-txt" data-ed contenteditable="false">Cibaadooyinka</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#065F46,#059669)"><span style="font-size:22px">🤲</span>Cibaadooyinka</div><div class="sb-preview-body">Salaah · Quraan · Adkaar · Soonta<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
-    <div class="sb-item" onclick="go('dhiiri',this)"><span class="ic">🏆</span><span class="sb-item-txt" data-ed contenteditable="false">Dhiirigelinta</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#7C3AED,#F59E0B)"><span style="font-size:22px">🏆</span>Dhiirigelinta</div><div class="sb-preview-body">Checklist maalinle + 21-day challenge<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
-    <div class="sb-item" onclick="go('abaalmarin',this)"><span class="ic">🎁</span><span class="sb-item-txt" data-ed contenteditable="false">Abaalmarina</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#92400E,#F59E0B)"><span style="font-size:22px">🎁</span>Abaalmarina</div><div class="sb-preview-body">Guulaha xaqiijiyay abaalmariso<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
   </div>
 
   <div class="sb-sec">
@@ -612,15 +714,13 @@ body.editing .edit-badge{display:flex}
 
   <div class="sb-sec">
     <div class="sb-lbl" style="color:var(--amber);font-size:11px;font-weight:800;letter-spacing:.09em" data-ed contenteditable="false">⭐ Horumarka Nolol</div>
-    <div class="sb-item" onclick="go('hn-xikmad',this)"><span class="ic">💎</span><span class="sb-item-txt" data-ed contenteditable="false">Xikmad &amp; Dhambaalo</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#1E3A5F,#7C3AED)"><span style="font-size:22px">💎</span>Xikmad &amp; Dhambaalo</div><div class="sb-preview-body">14 xikmadood + mahadnaq maalin kasta<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
+    <div class="sb-item" onclick="go('hn-xikmad',this)"><span class="ic">💎</span><span class="sb-item-txt" data-ed contenteditable="false">Dhambaalo</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#1E3A5F,#7C3AED)"><span style="font-size:22px">💎</span>Dhambaalo</div><div class="sb-preview-body">Dhambaal cusub maalin kasta<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
     <div class="sb-item" onclick="go('hn-overview',this)"><span class="ic">📊</span><span class="sb-item-txt" data-ed contenteditable="false">Overview</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#1E293B,#0D7377)"><span style="font-size:22px">📊</span>Overview 90</div><div class="sb-preview-body">Heatmap + horumarka guud<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
   </div>
 
   <div class="sb-sec">
     <div class="sb-lbl" data-ed contenteditable="false">Maareynta Dhaqaalaha</div>
-    <div class="sb-item" onclick="go('dhaqaale',this)"><span class="ic">💰</span><span class="sb-item-txt" data-ed contenteditable="false">Dhaqaalaha</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#92400E,#D97706)"><span style="font-size:22px">💰</span>Dhaqaalaha</div><div class="sb-preview-body">Kharashka maanta<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
-    <div class="sb-item" onclick="go('keyd',this)"><span class="ic">🏦</span><span class="sb-item-txt" data-ed contenteditable="false">Keydka</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#166534,#22C55E)"><span style="font-size:22px">🏦</span>Keydka</div><div class="sb-preview-body">Lacagta la keydsaday<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
-    <div class="sb-item" onclick="go('kharash',this)"><span class="ic">💸</span><span class="sb-item-txt" data-ed contenteditable="false">Kharashka</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#7F1D1D,#DC2626)"><span style="font-size:22px">💸</span>Kharashka</div><div class="sb-preview-body">Faahfaahin kharashka<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
+    <div class="sb-item" onclick="go('maal',this)"><span class="ic">💰</span><span class="sb-item-txt" data-ed contenteditable="false">Maaraynta Dhaqaalaha</span><div class="sb-preview"><div class="sb-preview-hero" style="background:linear-gradient(135deg,#166534,#22C55E)"><span style="font-size:22px">💰</span>Maaraynta Dhaqaalaha</div><div class="sb-preview-body">Kharashka · Keydka · Dakhliga · Deyn<br><span class="sb-preview-tag">Ku dhufo si aad u furto</span></div></div></div>
   </div>
 
   <div class="sb-sec">
@@ -790,6 +890,30 @@ body.editing .edit-badge{display:flex}
   <div class="page" id="page-jadwal">
     <div class="ph ph-teal"><div class="em">📅</div><h1 data-ed contenteditable="false">Jadwalka</h1><p data-ed contenteditable="false">Maalinkaaga oo dhan — jiif ilaa shaqo</p></div>
 
+    <!-- Sub-tabs -->
+    <div class="jtabs">
+      <button class="jtb active" onclick="showJadwalView('jv-bilaha',this)">🗓️ Bilaha</button>
+      <button class="jtb" onclick="showJadwalView('jv-master',this)">🗃️ Master Schedule</button>
+      <button class="jtb" onclick="showJadwalView('jv-maalinle',this)">☀️ Maalinle</button>
+    </div>
+
+    <!-- ══ VIEW 1: BILAHA (3-Month Timeline) ══ -->
+    <div class="jview active" id="jv-bilaha">
+      <div id="mo-list"></div>
+    </div>
+
+    <!-- ══ VIEW 2.5: MASTER SCHEDULE (12-Week × 7-Day nested vertical tree) ══ -->
+    <div class="jview" id="jv-master">
+      <div class="card" style="margin-bottom:16px;background:var(--bg);border-style:dashed">
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">🗃️ <b>Master Database</b> hal meel ayay ku jiraan dhammaan xogta. Taabo <b>Todobaadka</b> si uu u furmo, ka dibna taabo <b>Maalinta</b> gudaheeda si aad wax ugu qorto — dhammaan isku layer ah, gudaha isku meel.</div>
+      </div>
+      <div class="ms-overview" id="ms-overview"></div>
+      <div class="mstree" id="ms-tree"></div>
+    </div>
+
+    <!-- ══ VIEW 3: MAALINLE (Daily Schedule) ══ -->
+    <div class="jview" id="jv-maalinle">
+
     <!-- Date nav -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
       <div style="display:flex;align-items:center;gap:10px">
@@ -817,6 +941,7 @@ body.editing .edit-badge{display:flex}
         </select>
       </div>
       <button class="btn-p" onclick="addEvent()">➕ Ku dar</button>
+      <button class="btn-sm" style="margin-top:10px;width:100%;color:var(--teal)" onclick="loadStudyTemplate()">📥 Rakib Jadwalka Caadiga (Waxbarasho + Forex)</button>
     </div>
 
     <!-- Timeline: only shows slots with events -->
@@ -835,9 +960,7 @@ body.editing .edit-badge{display:flex}
     <!-- ── Qiimaynta Isbuuca ── -->
     <div class="card" style="margin-top:20px;border-color:var(--amber-light)">
       <div class="card-head"><div class="card-title">⭐ Isbuuca Qiimee (1–10)</div></div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="week-rating-btns">
-        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button onclick="setWeekRating(${n})" id="wr-${n}" style="width:36px;height:36px;border-radius:8px;border:2px solid var(--border);background:var(--card);cursor:pointer;font-weight:700;font-size:13px;transition:all .2s">${n}</button>`).join('')}
-      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="week-rating-btns"></div>
       <div class="inp-lbl">📝 Maxaad isbuucan gaaray?</div>
       <textarea class="inp" id="week-note" placeholder="Isbuucaan waxaan gaaray..." style="min-height:70px"></textarea>
       <button class="btn-p" onclick="saveWeekRating()">💾 Kaydi Qiimaynta</button>
@@ -846,6 +969,8 @@ body.editing .edit-badge{display:flex}
     <!-- ── Taariikhda Isbuucyada ── -->
     <div class="sh" style="margin-top:18px"><div class="st2">📚 Taariikhda Isbuucyada</div><div class="sb" id="week-hist-cnt">0</div></div>
     <div id="week-history-list"></div>
+
+    </div><!-- /jv-maalinle -->
   </div>
 
   <!-- ════ HAWLAHA ════ -->
@@ -1154,8 +1279,35 @@ body.editing .edit-badge{display:flex}
   </div>
 
   <!-- ════ DHAQAALAHA (Overview + Xisaabiyaha) ════ -->
-  <div class="page" id="page-dhaqaale">
-    <div class="ph ph-amber"><div class="em">💰</div><h1>Dhaqaalaha</h1><p>Dakhligaaga iyo kharashkaaga la soco</p></div>
+  <div class="page" id="page-maal">
+    <div class="ph ph-green"><div class="em">💰</div><h1>Maaraynta Dhaqaalaha</h1><p>Kharashka, Keydka iyo Dakhliga la soco</p></div>
+
+    <!-- Wadarta guud -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
+      <div class="sc">
+        <div class="sc-lbl">Wadarta Dakhliga</div>
+        <div class="sc-val" id="maal-income-total" style="color:var(--green)">$0.00</div>
+      </div>
+      <div class="sc">
+        <div class="sc-lbl">Wadarta Kharashka</div>
+        <div class="sc-val" id="maal-kharash-total" style="color:var(--red)">$0.00</div>
+      </div>
+      <div class="sc">
+        <div class="sc-lbl">Wadarta Keydka</div>
+        <div class="sc-val" id="maal-keyd-total" style="color:var(--teal-mid)">$0.00</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+      <button class="btn-sm active" id="maal-t1" onclick="showMaalTab('kharash',this)" style="flex:1;justify-content:center;min-width:110px">💸 Kharashka Maalinaha</button>
+      <button class="btn-sm" id="maal-t2" onclick="showMaalTab('keyd',this)" style="flex:1;justify-content:center;min-width:110px">🏦 Keydka</button>
+      <button class="btn-sm" id="maal-t3" onclick="showMaalTab('dakhli',this)" style="flex:1;justify-content:center;min-width:110px">💵 Dakhliga</button>
+      <button class="btn-sm" id="maal-t4" onclick="showMaalTab('deyn',this)" style="flex:1;justify-content:center;min-width:110px">🤝 Deyn</button>
+    </div>
+
+    <!-- ── TAB: KHARASHKA MAALINAHA ── -->
+    <div id="maal-tab-kharash">
 
     <!-- Stats: today spend only -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
@@ -1207,11 +1359,25 @@ body.editing .edit-badge{display:flex}
     <!-- Kharashyada maanta -->
     <div class="sh" style="margin-top:18px"><div class="st2" style="font-size:14px">Kharashyada Maanta</div><button class="btn-d" onclick="clearDqToday()">🗑️ Tir</button></div>
     <div id="dq-today-list"></div>
-  </div>
+
+    <!-- Faahfaahin: breakdown + maalin/isbuuc/bil -->
+    <div class="card" style="margin-top:18px;margin-bottom:18px">
+      <div class="card-head"><div class="card-title">🏷️ Noocyada Kharashka (Bishii)</div></div>
+      <div id="kh-breakdown"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button class="btn-sm active" id="kh-tab-d" onclick="showKhTab('d',this)" style="flex:1;justify-content:center">📅 Maanta</button>
+      <button class="btn-sm" id="kh-tab-w" onclick="showKhTab('w',this)" style="flex:1;justify-content:center">📆 Isbuuca</button>
+      <button class="btn-sm" id="kh-tab-m" onclick="showKhTab('m',this)" style="flex:1;justify-content:center">🗓️ Bisha</button>
+    </div>
+    <div id="kh-list-d"></div>
+    <div id="kh-list-w" style="display:none"></div>
+    <div id="kh-list-m" style="display:none"></div>
+    </div><!-- /maal-tab-kharash -->
 
   <!-- ════ KEYDKA ════ -->
-  <div class="page" id="page-keyd">
-    <div class="ph ph-green"><div class="em">🏦</div><h1>Keydka</h1><p>Lacagtaada keydi oo la soco</p></div>
+    <!-- ── TAB: KEYDKA ── -->
+    <div id="maal-tab-keyd" style="display:none">
 
     <!-- Keyd overview -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
@@ -1276,52 +1442,82 @@ body.editing .edit-badge{display:flex}
     <div id="ky-list-day"><div class="empty">Keyd ma jiro</div></div>
     <div id="ky-list-week" style="display:none"><div class="empty">Keyd ma jiro</div></div>
     <div id="ky-list-month" style="display:none"><div class="empty">Keyd ma jiro</div></div>
-  </div>
+    </div><!-- /maal-tab-keyd -->
 
-  <!-- ════ KHARASHKA (Monthly + Breakdown) ════ -->
-  <div class="page" id="page-kharash">
-    <div class="ph ph-red"><div class="em">💸</div><h1>Kharashka</h1><p>Maalin, Isbuuc, Bil kharashkaaga eeg</p></div>
-
-    <!-- Summary cards -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
-      <div class="sc">
-        <div class="sc-lbl">Kharash Maanta</div>
-        <div class="sc-val" id="kh-today-total">$0</div>
-        <div class="sc-note dn">Maanta guud</div>
-        <div class="st"><div class="sf" id="kh-today-bar" style="width:0%;background:linear-gradient(90deg,#FCA5A5,var(--red));border-radius:2px;height:100%"></div></div>
+    <!-- ── TAB: DAKHLIGA (Income) ── -->
+    <div id="maal-tab-dakhli" style="display:none">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head"><div class="card-title">➕ Dakhli Cusub Geli</div></div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:10px">
+          <div>
+            <div class="inp-lbl" style="margin-top:0">📌 Isha dakhliga</div>
+            <input class="inp" id="dk-source" placeholder="sida: Mushaar, Hadiyad, Ganacsi...">
+          </div>
+          <div>
+            <div class="inp-lbl" style="margin-top:0">💵 Lacagta ($)</div>
+            <input type="number" class="inp" id="dk-amount" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div>
+            <div class="inp-lbl" style="margin-top:0">🏷️ Nooca</div>
+            <select class="sel" id="dk-type" style="width:100%">
+              <option value="mushaar">💼 Mushaar</option>
+              <option value="ganacsi">🏪 Ganacsi</option>
+              <option value="hadiyad">🎁 Hadiyad</option>
+              <option value="kale">📦 Kale</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-p" onclick="addDakhli()">➕ Ku dar Dakhliga</button>
       </div>
-      <div class="sc">
-        <div class="sc-lbl">Kharash Isbuuca</div>
-        <div class="sc-val" id="kh-week-total">$0</div>
-        <div class="sc-note dn">7 maalmood</div>
-        <div class="st"><div class="sf fa" id="kh-week-bar" style="width:0%"></div></div>
+      <div class="sh"><div class="st2" style="font-size:14px">Dakhliga Bishan</div><div class="sb" id="dk-badge">$0</div></div>
+      <div id="dk-list"></div>
+    </div><!-- /maal-tab-dakhli -->
+
+    <!-- ── TAB: DEYN (Debt) ── -->
+    <div id="maal-tab-deyn" style="display:none">
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="btn-sm active" id="deyn-t1" onclick="showDeynTab('lay',this)" style="flex:1;justify-content:center">📥 La i leeyahay</button>
+        <button class="btn-sm" id="deyn-t2" onclick="showDeynTab('ku',this)" style="flex:1;justify-content:center">📤 Aan ku leeyahay</button>
       </div>
-      <div class="sc">
-        <div class="sc-lbl">Kharash Bisha</div>
-        <div class="sc-val" id="kh-month-total">$0</div>
-        <div class="sc-note dn">Bishan guud</div>
-        <div class="st"><div class="sf fp" id="kh-month-bar" style="width:0%"></div></div>
+
+      <!-- Sub-tab: La i leeyahay (owed to me) -->
+      <div id="deyn-tab-lay">
+        <div class="sc" style="margin-bottom:16px">
+          <div class="sc-lbl">Wadarta la igu leeyahay</div>
+          <div class="sc-val" id="deyn-lay-total" style="color:var(--green)">$0.00</div>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-head"><div class="card-title">➕ Deyn cusub (La i leeyahay)</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <input class="inp" id="deyn-lay-name" placeholder="Magaca qofka...">
+            <input type="number" class="inp" id="deyn-lay-amount" placeholder="Lacagta ($)" step="0.01" min="0">
+          </div>
+          <textarea class="inp" id="deyn-lay-note" placeholder="Faahfaahin (ikhtiyaari)..." style="min-height:50px"></textarea>
+          <button class="btn-p" onclick="addDeyn('lay')">➕ Ku dar</button>
+        </div>
+        <div id="deyn-lay-list"></div>
       </div>
-    </div>
 
-    <!-- Nooca kharashka breakdown -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head"><div class="card-title">🏷️ Noocyada Kharashka (Bishii)</div></div>
-      <div id="kh-breakdown"></div>
-    </div>
+      <!-- Sub-tab: Aan ku leeyahay (I owe) -->
+      <div id="deyn-tab-ku" style="display:none">
+        <div class="sc" style="margin-bottom:16px">
+          <div class="sc-lbl">Wadarta aan ku leeyahay</div>
+          <div class="sc-val" id="deyn-ku-total" style="color:var(--red)">$0.00</div>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-head"><div class="card-title">➕ Deyn cusub (Aan ku leeyahay)</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <input class="inp" id="deyn-ku-name" placeholder="Magaca qofka...">
+            <input type="number" class="inp" id="deyn-ku-amount" placeholder="Lacagta ($)" step="0.01" min="0">
+          </div>
+          <textarea class="inp" id="deyn-ku-note" placeholder="Faahfaahin (ikhtiyaari)..." style="min-height:50px"></textarea>
+          <button class="btn-p" onclick="addDeyn('ku')">➕ Ku dar</button>
+        </div>
+        <div id="deyn-ku-list"></div>
+      </div>
+    </div><!-- /maal-tab-deyn -->
 
-    <!-- Tabs: Malin / Isbuuc / Bil -->
-    <div style="display:flex;gap:8px;margin-bottom:14px">
-      <button class="btn-sm active" id="kh-tab-d" onclick="showKhTab('d',this)" style="flex:1;justify-content:center">📅 Maanta</button>
-      <button class="btn-sm" id="kh-tab-w" onclick="showKhTab('w',this)" style="flex:1;justify-content:center">📆 Isbuuca</button>
-      <button class="btn-sm" id="kh-tab-m" onclick="showKhTab('m',this)" style="flex:1;justify-content:center">🗓️ Bisha</button>
-    </div>
-    <div id="kh-list-d"></div>
-    <div id="kh-list-w" style="display:none"></div>
-    <div id="kh-list-m" style="display:none"></div>
-  </div>
-
-
+  </div><!-- /page-maal -->
 
   <!-- ════ WAXBARASHO ════ -->
   <div class="page" id="page-waxbarasho">
@@ -1724,6 +1920,12 @@ body.editing .edit-badge{display:flex}
         </div>
       </div>
 
+      <!-- Diiwaanka Maanta — Auto-log ibaadooyinka la dhammeystiray + delete/undo -->
+      <div style="margin-top:22px">
+        <div class="sec-head"><div class="st2" style="font-size:14px">🕓 Diiwaanka Maanta</div><div class="sb" id="diiwaan-maanta-badge">0</div></div>
+        <div id="diiwaan-maanta-list"></div>
+      </div>
+
       <!-- Jalaad — 7 Manzil -->
       <div style="margin-top:22px">
         <div class="sec-head"><div class="st2">📖 Jalaad — 7 Manzil</div><div class="sb a" id="jalaad-badge">0/7</div></div>
@@ -1904,19 +2106,19 @@ body.editing .edit-badge{display:flex}
   <!-- ════ HORUMARKA NOLOL: XIKMAD & DHAMBAALO ════ -->
   <div class="page" id="page-hn-xikmad">
     <div class="ph" style="background:linear-gradient(130deg,#1E3A5F 0%,#2563EB 50%,#7C3AED 100%)"><div class="em">💎</div>
-      <h1 data-ed contenteditable="false">Xikmad &amp; Dhambaalo</h1>
-      <p data-ed contenteditable="false">Maalin kasta xikmad cusub aqriso, oo Ilaahay u mahadnaqo</p>
+      <h1 data-ed contenteditable="false">Dhambaalo</h1>
+      <p data-ed contenteditable="false">Maalin kasta dhambaal cusub aqriso, oo Ilaahay u mahadnaqo</p>
     </div>
 
     <!-- Xikmadda Maanta -->
     <div class="card" style="margin-bottom:18px;border-color:#DDD6FE;background:linear-gradient(135deg,#F5F3FF,#EDE9FE)">
-      <div style="font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--purple);margin-bottom:10px">💎 XIKMADDA MAANTA</div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--purple);margin-bottom:10px">💎 DHAMBAALKA MAANTA</div>
       <div style="font-size:16px;font-style:italic;line-height:1.7;color:var(--text);font-weight:500" id="xikmad-today"></div>
       <div style="font-size:11.5px;color:var(--text3);margin-top:8px" id="xikmad-today-tag"></div>
     </div>
 
     <!-- All quotes -->
-    <div class="sh"><div class="st2" style="font-size:14px">📚 Dhammaan Xikmadaha</div></div>
+    <div class="sh"><div class="st2" style="font-size:14px">📚 Dhammaan Dhambaalada</div></div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
       <div class="hn-quote-card">
         <div class="hn-quote-text">"Cabdulaahi — adiga ayaa awooda aadan haray. 90 maalin. Maalin kasta. Nolashaady waa is beddeli doontaa. 💪"</div>
@@ -1976,10 +2178,10 @@ body.editing .edit-badge{display:flex}
       </div>
     </div>
 
-    <!-- Add custom xikmad -->
+    <!-- Add custom dhambaal -->
     <div class="card">
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px">✏️ Xikmad Cusub Ku Dar</div>
-      <textarea class="inp" id="xikmad-custom" placeholder="Xikmadda cusub..." style="min-height:70px;margin-bottom:10px"></textarea>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">✏️ Dhambaal Cusub Ku Dar</div>
+      <textarea class="inp" id="xikmad-custom" placeholder="Dhambaalka cusub..." style="min-height:70px;margin-bottom:10px"></textarea>
       <button class="btn-p" onclick="saveXikmad()">💾 Kaydi</button>
     </div>
     <div id="xikmad-custom-list" style="margin-top:14px"></div>
@@ -2393,6 +2595,14 @@ def('quran',{sura:0,juz:0}); def('gpa',{now:0,goal:4,sem:''});
 def('xiisad',[]); def('books',[]); def('fikrad',[]); def('health',[]);
 def('ma_tasks',[]); def('ma_note',''); def('learning',[]);
 def('events',{}); def('rep_note','');
+def('diiwaan_maanta', []);
+def('salah_log', []); def('sunnah_log', []); def('adkaar_log', []);
+def('jadwal_bilaha',[
+  {color:'blue',   label:"Bisha 1aad",  title:'Xoojinta Aasaaska Xisaabaadka', desc:'Diiradda saarida koorsooyinka Jaamacadda'},
+  {color:'green',  label:"Bisha 2aad",  title:'Horumarinta Istaraatiijiyadda Forex', desc:'Cusbooneysiinta xirfadaha Trading-ka iyo falanqaynta Momentum trend'},
+  {color:'purple', label:"Bisha 3aad",  title:'Dhammaystirka Mashruuca Life OS', desc:'Sifeynta iyo otomaatikaynta qalabkaaga Notion'}
+]);
+def('master_sched', []);
 const S = () => localStorage.setItem('noloshayda_v3', JSON.stringify(D));
 
 /* ═══════════════════════════════════
@@ -2453,6 +2663,7 @@ function go(id, el) {
   if(id==='hn-overview' && typeof renderHeatmap==='function') renderHeatmap();
   if(id==='profile' && typeof loadProfile==='function') loadProfile();
   if(id==='waxbarasho' && typeof initWaxbarasho==='function') initWaxbarasho();
+  if(id==='maal' && typeof initFinance==='function') initFinance();
   // Isku-xidh dhammaan xogta la wadaago bogagga (streak/Quran/badges)
   if(typeof syncAllStats==='function') syncAllStats();
   // Re-inject edit mode add buttons
@@ -2469,11 +2680,19 @@ function showTab(id, btn) {
    SALAH
 ═══════════════════════════════════ */
 const SAL_EM={fajr:'☀️',dhuhr:'🌤️',asr:'⛅',maghrib:'🌅',isha:'🌙'};
+const SAL_NAME={fajr:'Fajr',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'};
 const SAL_KEYS=['fajr','dhuhr','asr','maghrib','isha'];
 function toggleSal(c,n){
   c.classList.toggle('done');
-  c.querySelector('.sal-d').textContent=c.classList.contains('done')?'✓':SAL_EM[n];
-  D.salah[n]=c.classList.contains('done'); S();
+  const isDone=c.classList.contains('done');
+  c.querySelector('.sal-d').textContent=isDone?'✓':SAL_EM[n];
+  D.salah[n]=isDone; S();
+  if(isDone){
+    if(!D.salah_log.some(e=>e.date===TODAY && e.key===n)) D.salah_log.push({date:TODAY,key:n,name:SAL_NAME[n]||n});
+  } else {
+    D.salah_log = D.salah_log.filter(e=>!(e.date===TODAY && e.key===n));
+  }
+  S();
   const done=document.querySelectorAll('.sal-c.done').length, pct=Math.round(done/5*100);
   document.getElementById('sal-pb').style.width=pct+'%';
   document.getElementById('sal-pct').textContent=pct+'%';
@@ -2481,13 +2700,37 @@ function toggleSal(c,n){
   document.getElementById('d-sal').textContent=done;
   document.getElementById('d-sal-b').style.width=pct+'%';
 }
+function initSalah(){
+  document.querySelectorAll('.sal-c').forEach(c=>{
+    const key=c.getAttribute('onclick')?.match(/toggleSal\(this,'([^']+)'\)/)?.[1];
+    if(key && D.salah && D.salah[key]){
+      c.classList.add('done');
+      const d=c.querySelector('.sal-d'); if(d) d.textContent='✓';
+    }
+  });
+  const done=document.querySelectorAll('.sal-c.done').length, pct=Math.round(done/5*100);
+  const pb=document.getElementById('sal-pb'); if(pb) pb.style.width=pct+'%';
+  const pt=document.getElementById('sal-pct'); if(pt) pt.textContent=pct+'%';
+  const bd=document.getElementById('sal-badge'); if(bd) bd.textContent=`${done} / 5`;
+  const ds=document.getElementById('d-sal'); if(ds) ds.textContent=done;
+  const dsb=document.getElementById('d-sal-b'); if(dsb) dsb.style.width=pct+'%';
+}
+initSalah();
 
 /* ═══════════════════════════════════
    SUNNAH
 ═══════════════════════════════════ */
 function toggleSun(item){
   item.classList.toggle('done');
-  item.querySelector('.sun-cb').textContent=item.classList.contains('done')?'✓':'';
+  const isDone=item.classList.contains('done');
+  item.querySelector('.sun-cb').textContent=isDone?'✓':'';
+  const label=item.querySelector('span')?.textContent.trim()||'Sunnah';
+  if(isDone){
+    if(!D.sunnah_log.some(e=>e.date===TODAY && e.name===label)) D.sunnah_log.push({date:TODAY,name:label});
+  } else {
+    D.sunnah_log = D.sunnah_log.filter(e=>!(e.date===TODAY && e.name===label));
+  }
+  S();
   const done=document.querySelectorAll('.sun-i.done').length, pct=Math.round(done/12*100);
   const pb=document.getElementById('sun-pb'); if(pb)pb.style.width=pct+'%';
   const pt=document.getElementById('sun-pct'); if(pt)pt.textContent=pct+'%';
@@ -2607,13 +2850,15 @@ const schedDateEl=document.getElementById('sched-date');
 schedDateEl.value=TODAY;
 
 const EV_META={
-  teal:  {label:'📖 Waxbarasho', bg:'linear-gradient(135deg,#E0F7F7,#CCFBF1)', border:'#14A3A8', text:'#0D7377'},
-  amber: {label:'🏋️ Jimicsi',    bg:'linear-gradient(135deg,#FFF8E7,#FDE68A)', border:'#F59E0B', text:'#92400E'},
-  green: {label:'📿 Quraanka',    bg:'linear-gradient(135deg,#F0FDF4,#DCFCE7)', border:'#22C55E', text:'#166534'},
-  purple:{label:'💤 Nasasho',     bg:'linear-gradient(135deg,#F5F3FF,#DDD6FE)', border:'#8B5CF6', text:'#6D28D9'},
-  blue:  {label:'💼 Shaqo',       bg:'linear-gradient(135deg,#EFF6FF,#BFDBFE)', border:'#3B82F6', text:'#1E40AF'},
-  red2:  {label:'🍽️ Cunto',       bg:'linear-gradient(135deg,#FEF2F2,#FECACA)', border:'#EF4444', text:'#991B1B'},
-  pink:  {label:'🧴 Nadaafadda',  bg:'linear-gradient(135deg,#FDF4FF,#F3E8FF)', border:'#C026D3', text:'#7E22CE'},
+  teal:  {label:'📖 Waxbarasho', bg:'linear-gradient(135deg,#FAFAF9,#F0EFEE)', border:'#A8A29E', text:'#44403C'},
+  amber: {label:'🏋️ Jimicsi',    bg:'linear-gradient(135deg,#FFFBEB,#FDE68A)', border:'#F59E0B', text:'#92400E'},
+  green: {label:'📿 Quraanka',    bg:'linear-gradient(135deg,#FEF3C7,#FCD34D)', border:'#B45309', text:'#78350F'},
+  purple:{label:'💤 Nasasho',     bg:'linear-gradient(135deg,#FAFAF9,#E7E5E4)', border:'#78716C', text:'#57534E'},
+  blue:  {label:'💼 Shaqo',       bg:'linear-gradient(135deg,#E7E5E4,#D6D3D1)', border:'#57534E', text:'#1C1917'},
+  red2:  {label:'🍽️ Cunto',       bg:'linear-gradient(135deg,#FFFBEB,#FBBF24)', border:'#D97706', text:'#92400E'},
+  pink:  {label:'🧴 Nadaafadda',  bg:'linear-gradient(135deg,#FFFFFF,#F5F5F4)', border:'#D6D3D1', text:'#78716C'},
+  forex: {label:'📈 Forex/Trading', bg:'linear-gradient(135deg,#FDE68A,#FCD34D)', border:'#B45309', text:'#78350F'},
+  project:{label:'🗂️ Mashruuc Life OS', bg:'linear-gradient(135deg,#D6D3D1,#A8A29E)', border:'#44403C', text:'#1C1917'},
 };
 
 function changeDay(delta){
@@ -2700,12 +2945,12 @@ function renderSched(){
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <div onclick="event.stopPropagation();toggleEvDone(${storeIdx},'${date}')"
-              style="width:22px;height:22px;border-radius:6px;border:2px solid rgba(0,0,0,0.25);background:${ev.done?'var(--green)':'rgba(0,0,0,0.12)'};display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;font-size:12px;font-weight:700;color:${ev.done?'#fff':'rgba(0,0,0,0.45)'}">
+              class="ev-check-btn ${ev.done?'ev-done':''}" style="flex-shrink:0">
               ${ev.done?'✓':''}
             </div>
             <button onclick="event.stopPropagation();delEvent(${storeIdx},'${date}')"
-              style="background:rgba(0,0,0,0.12);border:none;cursor:pointer;font-size:13px;padding:3px 5px;border-radius:5px;opacity:.7;transition:opacity .15s"
-              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">🗑️</button>
+              style="background:rgba(0,0,0,0.06);border:none;cursor:pointer;font-size:13px;padding:5px 7px;border-radius:8px;opacity:.6;transition:opacity .15s"
+              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">🗑️</button>
           </div>
         </div>
       </div>`;
@@ -2740,6 +2985,161 @@ function addEvent(){
   document.getElementById('ev-title').value=''; renderSched();
 }
 renderSched();
+
+/* ═══════════════════════════════════
+   JADWAL SUB-TABS (Bilaha / Master Schedule / Maalinle)
+═══════════════════════════════════ */
+function showJadwalView(id, btn){
+  document.querySelectorAll('#page-jadwal .jview').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('#page-jadwal .jtb').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+/* ── Load a ready-made daily template (study + forex + project) ── */
+function loadStudyTemplate(){
+  const date = schedDateEl.value;
+  if(!D.events[date]) D.events[date]=[];
+  const tpl=[
+    {title:'Duolingo (English) & Akhrinta Suuqyada Forex', hour:6, min:0,  type:'forex',   endTime:'8:00 AM'},
+    {title:'Casharada Jaamacadda (Accounting & Mathematics)', hour:9, min:0,  type:'teal',    endTime:'1:00 PM'},
+    {title:"Hawlaha Mashruuca Personal Life OS (Coding/Notion)", hour:14,min:0,  type:'project', endTime:'4:00 PM'},
+    {title:'Falanqaynta Qoraalka TradingView & Xarashada Maalinlaha', hour:17,min:0,  type:'forex',   endTime:'7:00 PM'},
+    {title:'Dib u Eegista Hawlaha (Checklist)', hour:20,min:0,  type:'purple',  endTime:'8:30 PM'},
+  ];
+  let added=0;
+  tpl.forEach(ev=>{
+    const exists=D.events[date].some(e=>e.title===ev.title);
+    if(!exists){ D.events[date].push({...ev, done:false}); added++; }
+  });
+  S(); renderSched();
+  if(added===0) alert('Jadwalkan horeba loo rakibay maalintan.');
+}
+
+/* ═══════════════════════════════════
+   BILAHA — 3-Month Goal Timeline
+═══════════════════════════════════ */
+function renderBilaha(){
+  const el=document.getElementById('mo-list'); if(!el)return;
+  el.innerHTML = D.jadwal_bilaha.map((m,i)=>`
+    <div class="mo-card mo-${m.color}">
+      <div class="mo-lbl">${m.label}</div>
+      <div class="mo-title" contenteditable="true" onblur="editMonth(${i},'title',this.textContent)">${m.title}</div>
+      <div class="mo-desc" contenteditable="true" onblur="editMonth(${i},'desc',this.textContent)">${m.desc}</div>
+    </div>
+  `).join('');
+}
+function editMonth(i, field, val){
+  D.jadwal_bilaha[i][field]=val.trim(); S();
+}
+renderBilaha();
+
+/* ═══════════════════════════════════
+   MASTER SCHEDULE — 12-Week → 7-Day
+   Nested VERTICAL accordion tree (layer inside layer)
+═══════════════════════════════════ */
+const MS_DAYS=['Isniin','Talaado','Arbaco','Khamiis','Jimce','Sabti','Axad'];
+const MS_DAY_IC={Isniin:'🌙',Talaado:'🌊',Arbaco:'🌤️',Khamiis:'✨',Jimce:'🕌',Sabti:'🌿',Axad:'☀️'};
+let msOpenWeek=null, msOpenDay=null; // only one branch open at a time — true nested layers
+
+function msWeekItems(w){ return D.master_sched.filter(x=>x.week===w); }
+function msDayItems(w,d){ return D.master_sched.filter(x=>x.week===w && x.day===d); }
+
+function renderMSOverview(){
+  const el=document.getElementById('ms-overview'); if(!el)return;
+  const total=D.master_sched.length, done=D.master_sched.filter(x=>x.status).length;
+  const pct = total? Math.round(done/total*100) : 0;
+  el.innerHTML = `
+    <svg viewBox="0 0 64 64" width="52" height="52" class="ms-ov-ring">
+      <circle cx="32" cy="32" r="26" fill="none" stroke="var(--amber-light)" stroke-width="7"/>
+      <circle cx="32" cy="32" r="26" fill="none" stroke="var(--amber)" stroke-width="7"
+        stroke-dasharray="${2*Math.PI*26}" stroke-dashoffset="${2*Math.PI*26*(1-pct/100)}"
+        stroke-linecap="round" transform="rotate(-90 32 32)" style="transition:stroke-dashoffset .6s"/>
+      <text x="32" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)">${pct}%</text>
+    </svg>
+    <div class="ms-ov-txt">
+      <div class="ms-ov-lbl">🗃️ Master Schedule — 12 Todobaad</div>
+      <div class="ms-ov-val">${done} / ${total} mowduuc oo la dhammeystiray</div>
+    </div>`;
+}
+
+function renderMSTree(){
+  const el=document.getElementById('ms-tree'); if(!el)return;
+  let html='';
+  for(let w=1; w<=12; w++){
+    const wItems=msWeekItems(w);
+    const wDone=wItems.filter(x=>x.status).length;
+    const isWOpen = msOpenWeek===w;
+    html += `<div class="mstree-week ${isWOpen?'open':''}">
+      <div class="mstree-week-h" onclick="toggleMSWeek(${w})">
+        <span class="mstree-chevron">▸</span>
+        <span class="mstree-week-ic">🗓️</span>
+        <div>
+          <div class="mstree-week-title">Todobaad ${w}</div>
+          <div class="mstree-week-sub">Isniin – Axad</div>
+        </div>
+        <span class="mstree-week-badge">${wItems.length? `${wDone}/${wItems.length}` : 'Madhan'}</span>
+      </div>`;
+    if(isWOpen){
+      html += `<div class="mstree-week-body">`;
+      MS_DAYS.forEach(d=>{
+        const dItems=msDayItems(w,d);
+        const dDone=dItems.filter(x=>x.status).length;
+        const isDOpen = isWOpen && msOpenDay===d;
+        html += `<div class="mstree-day ${isDOpen?'open':''}">
+          <div class="mstree-day-h" onclick="toggleMSDay(${w},'${d}')">
+            <span class="mstree-chevron">▸</span>
+            <span>${MS_DAY_IC[d]}</span>
+            <span class="mstree-day-title">${d}</span>
+            <span class="mstree-day-badge">${dItems.length? `${dDone}/${dItems.length}` : '—'}</span>
+          </div>`;
+        if(isDOpen){
+          html += `<div class="mstree-day-body">
+            <div class="mstree-add">
+              <input type="text" id="ms-in-${w}-${d}" placeholder="Mowduuc cusub (Topic)..." onkeydown="if(event.key==='Enter')addMasterTopic(${w},'${d}')">
+              <button onclick="addMasterTopic(${w},'${d}')">➕ Ku dar</button>
+            </div>
+            ${dItems.length ? dItems.map(it=>`
+              <div class="ms-row ${it.status?'done':''}">
+                <div class="ms-cb" onclick="toggleMSStatus('${it.id}')">${it.status?'✓':''}</div>
+                <div class="ms-topic">${it.topic}</div>
+                <button class="ms-del" onclick="delMSItem('${it.id}')">🗑️</button>
+              </div>`).join('') : `<div class="ms-day-empty">Mowduuc lama gelin weli — ${d}, Todobaad ${w}</div>`}
+          </div>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  el.innerHTML = html;
+  renderMSOverview();
+}
+function toggleMSWeek(w){
+  msOpenWeek = (msOpenWeek===w) ? null : w;
+  msOpenDay = null;
+  renderMSTree();
+}
+function toggleMSDay(w,d){
+  msOpenDay = (msOpenDay===d) ? null : d;
+  renderMSTree();
+}
+function addMasterTopic(w,d){
+  const inp=document.getElementById(`ms-in-${w}-${d}`); if(!inp)return;
+  const topic=inp.value.trim(); if(!topic)return;
+  D.master_sched.push({id:'ms'+Date.now()+Math.random().toString(36).slice(2,6), week:w, day:d, topic, status:false});
+  S(); renderMSTree();
+}
+function toggleMSStatus(id){
+  const it=D.master_sched.find(x=>x.id===id); if(!it)return;
+  it.status=!it.status; S(); renderMSTree();
+}
+function delMSItem(id){
+  const idx=D.master_sched.findIndex(x=>x.id===id); if(idx<0)return;
+  D.master_sched.splice(idx,1); S(); renderMSTree();
+}
+renderMSTree();
 
 /* ═══════════════════════════════════
    YOOLALKA
@@ -2977,6 +3377,16 @@ function showSetTab(tab, btn){
 /* ── Weekly Rating ── */
 if(!D.week_ratings) D.week_ratings=[];
 var _selectedWeekRating=0;
+
+function renderWeekRatingButtons(){
+  const el=document.getElementById('week-rating-btns'); if(!el)return;
+  let html='';
+  for(let n=1;n<=10;n++){
+    html+=`<button onclick="setWeekRating(${n})" id="wr-${n}" style="width:36px;height:36px;border-radius:8px;border:2px solid var(--border);background:var(--card);cursor:pointer;font-weight:700;font-size:13px;transition:all .2s">${n}</button>`;
+  }
+  el.innerHTML=html;
+}
+renderWeekRatingButtons();
 
 function setWeekRating(n){
   _selectedWeekRating=n;
@@ -3927,17 +4337,20 @@ function addDqKharash(){
   updateDqSimpleStats();
   renderDqTodayList();
   refreshKharashPage();
+  if(typeof updateMaalTotals==='function') updateMaalTotals();
 }
 
 function clearDqToday(){
   if(!confirm('Maanta kharashyada ma tirtirtaa?')) return;
   D.dq_kharash = D.dq_kharash.filter(k=>k.date!==TODAY); S();
   updateDqSpentBar(); renderDqTodayList(); refreshKharashPage();
+  if(typeof updateMaalTotals==='function') updateMaalTotals();
 }
 
 function delDqKharash(idx){
   D.dq_kharash.splice(idx,1); S();
   updateDqSpentBar(); renderDqTodayList(); refreshKharashPage();
+  if(typeof updateMaalTotals==='function') updateMaalTotals();
 }
 
 function updateDqSpentBar(){ updateDqSimpleStats(); }
@@ -3967,6 +4380,7 @@ function addKeyd(){
   document.getElementById('ky-note').value='';
   updateKyGoal();
   renderKeydLists();
+  if(typeof updateMaalTotals==='function') updateMaalTotals();
 }
 
 function updateKyGoal(){
@@ -4014,6 +4428,7 @@ function renderKeydLists(){
 
 function delKeyd(idx){
   D.keyd_log.splice(idx,1); S(); updateKyGoal(); renderKeydLists();
+  if(typeof updateMaalTotals==='function') updateMaalTotals();
 }
 
 // ── KHARASH page ──
@@ -4074,6 +4489,10 @@ function refreshKharashPage(){
 }
 
 // ── INIT ──
+if(!D.dq_income) D.dq_income=[];
+if(!D.deyn_lay)  D.deyn_lay=[];   // la i leeyahay — owed to me
+if(!D.deyn_ku)   D.deyn_ku=[];    // aan ku leeyahay — I owe
+
 function initFinance(){
   const p=D.dq_profile;
   const mi=document.getElementById('dq-mushaar'); if(mi)mi.value=p.mushaar||300;
@@ -4085,8 +4504,98 @@ function initFinance(){
   const kg=document.getElementById('ky-goal-inp'); if(kg)kg.value=D.keyd_goal||1000;
   calcDqBudget(); updateDqFixed(); updateDqSimpleStats();
   renderDqTodayList(); renderKeydLists(); updateKyGoal(); refreshKharashPage();
+  renderDakhliList(); renderDeynLists(); updateMaalTotals();
 }
 initFinance();
+
+function showMaalTab(tab, btn){
+  ['kharash','keyd','dakhli','deyn'].forEach(t=>{
+    const el=document.getElementById('maal-tab-'+t); if(el)el.style.display=t===tab?'block':'none';
+  });
+  document.querySelectorAll('#page-maal > div > .btn-sm').forEach(b=>{
+    if(['maal-t1','maal-t2','maal-t3','maal-t4'].includes(b.id)) b.classList.remove('active');
+  });
+  if(btn) btn.classList.add('active');
+  updateMaalTotals();
+}
+
+function updateMaalTotals(){
+  const income  = D.dq_income.reduce((a,k)=>a+k.amount,0);
+  const kharash = D.dq_kharash.reduce((a,k)=>a+k.amount,0);
+  const keyd    = D.keyd_log.reduce((a,k)=>a+k.amount,0);
+  const e1=document.getElementById('maal-income-total');  if(e1)e1.textContent=dqFmt(income);
+  const e2=document.getElementById('maal-kharash-total'); if(e2)e2.textContent=dqFmt(kharash);
+  const e3=document.getElementById('maal-keyd-total');    if(e3)e3.textContent=dqFmt(keyd);
+}
+
+// ── Dakhliga (Income) ──
+function addDakhli(){
+  const source = document.getElementById('dk-source').value.trim();
+  const amount = parseFloat(document.getElementById('dk-amount').value)||0;
+  const type   = document.getElementById('dk-type').value;
+  if(!source||!amount){ alert('Isha dakhliga iyo lacagta geli!'); return; }
+  D.dq_income.push({source, amount, type, date:TODAY}); S();
+  document.getElementById('dk-source').value='';
+  document.getElementById('dk-amount').value='';
+  renderDakhliList(); updateMaalTotals();
+}
+function delDakhli(idx){
+  D.dq_income.splice(idx,1); S(); renderDakhliList(); updateMaalTotals();
+}
+const DK_EM={mushaar:'💼',ganacsi:'🏪',hadiyad:'🎁',kale:'📦'};
+function renderDakhliList(){
+  const el=document.getElementById('dk-list'); if(!el)return;
+  const monthItems=D.dq_income.filter(k=>inMonth(k.date));
+  const badge=document.getElementById('dk-badge'); if(badge)badge.textContent=dqFmt(monthItems.reduce((a,k)=>a+k.amount,0));
+  if(!D.dq_income.length){ el.innerHTML='<div class="empty">Dakhli ma jiro weli</div>'; return; }
+  el.innerHTML=[...D.dq_income].reverse().map(k=>{
+    const realIdx=D.dq_income.indexOf(k);
+    return`<div class="entry green" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div><div class="entry-b"><b>${DK_EM[k.type]||'📦'} ${k.source}</b></div><div class="entry-dt">${k.date}</div></div>
+      <div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;font-weight:700;color:var(--green)">${dqFmt(k.amount)}</span><button class="book-del" onclick="delDakhli(${realIdx})">🗑️</button></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Deyn (Debt) ──
+function showDeynTab(t, btn){
+  ['lay','ku'].forEach(x=>{
+    const el=document.getElementById('deyn-tab-'+x); if(el)el.style.display=x===t?'block':'none';
+  });
+  document.querySelectorAll('#maal-tab-deyn .btn-sm').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+function addDeyn(kind){
+  const nameEl=document.getElementById('deyn-'+kind+'-name');
+  const amtEl=document.getElementById('deyn-'+kind+'-amount');
+  const noteEl=document.getElementById('deyn-'+kind+'-note');
+  const name=nameEl.value.trim(); const amount=parseFloat(amtEl.value)||0; const note=noteEl.value.trim();
+  if(!name||!amount){ alert('Magaca iyo lacagta geli!'); return; }
+  const arr = kind==='lay' ? D.deyn_lay : D.deyn_ku;
+  arr.push({name, amount, note, date:TODAY}); S();
+  nameEl.value=''; amtEl.value=''; noteEl.value='';
+  renderDeynLists();
+}
+function delDeyn(kind, idx){
+  (kind==='lay'?D.deyn_lay:D.deyn_ku).splice(idx,1); S(); renderDeynLists();
+}
+function renderDeynLists(){
+  const build=(arr, kind, color, empty)=>{
+    const listEl=document.getElementById('deyn-'+kind+'-list'); if(!listEl)return;
+    const total=arr.reduce((a,d)=>a+d.amount,0);
+    const totalEl=document.getElementById('deyn-'+kind+'-total'); if(totalEl)totalEl.textContent=dqFmt(total);
+    if(!arr.length){ listEl.innerHTML='<div class="empty">'+empty+'</div>'; return; }
+    listEl.innerHTML=[...arr].reverse().map(d=>{
+      const realIdx=arr.indexOf(d);
+      return`<div class="entry" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div><div class="entry-b"><b>🤝 ${d.name}</b></div><div class="entry-dt">${d.note?d.note+' · ':''}${d.date}</div></div>
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:16px;font-weight:700;color:${color}">${dqFmt(d.amount)}</span><button class="book-del" onclick="delDeyn('${kind}',${realIdx})">🗑️</button></div>
+      </div>`;
+    }).join('');
+  };
+  build(D.deyn_lay,'lay','var(--green)','Ninna wax kuguma leh');
+  build(D.deyn_ku,'ku','var(--red)','Qofna wax kaama laha');
+}
 
 
 /* ═══════════════════════════════════════════════
@@ -4467,6 +4976,15 @@ function setSal(key, type){
   D.cib_sal=D.cib_sal||{};
   D.cib_sal[key]=!!D.sal_state[key];
   S(); updateSalUI(); buildRepDay();
+
+  // ── Diiwaan-gelinta Global Archive ──
+  const newState = D.sal_state[key];
+  D.salah_log = D.salah_log.filter(e=>!(e.date===TODAY && e.key===key));
+  if(newState){
+    const meta = SAL_META[key]||{};
+    D.salah_log.push({date:TODAY, key, name:meta.name||key, mode:newState, pts:newState==='masjid'?30:3});
+  }
+  S();
 }
 
 function updateSalUI(){
@@ -4705,15 +5223,23 @@ function clickAdkaar(card, name, max){
   const a=ADKAAR_MAP[name]; if(!a)return;
   if(!D.cib_adkaar) D.cib_adkaar={};
   if(!D.cib_adkaar[a.id]) D.cib_adkaar[a.id]=0;
+  const wasFull = D.cib_adkaar[a.id]>=max;
   if(D.cib_adkaar[a.id]<max) D.cib_adkaar[a.id]++;
   S();
   const cnt=D.cib_adkaar[a.id];
   const cntEl=document.getElementById('adkaar-'+a.id); if(cntEl)cntEl.textContent=cnt+' / '+max;
   const barEl=document.getElementById('adkaar-'+a.id+'-bar'); if(barEl)barEl.style.width=Math.round(cnt/max*100)+'%';
-  if(cnt>=max) card.classList.add('full'); else card.classList.remove('full');
+  if(cnt>=max){
+    card.classList.add('full');
+    if(!wasFull && !D.adkaar_log.some(e=>e.date===TODAY && e.key===a.id)){
+      D.adkaar_log.push({date:TODAY,key:a.id,name,max}); S();
+    }
+  } else card.classList.remove('full');
 }
 function resetAdkaar(){
-  D.cib_adkaar={sub:0,alx:0,akb:0,laa:0,ast:0,sal:0}; S();
+  D.cib_adkaar={sub:0,alx:0,akb:0,laa:0,ast:0,sal:0};
+  D.adkaar_log = D.adkaar_log.filter(e=>e.date!==TODAY);
+  S();
   Object.keys(ADKAAR_MAP).forEach(name=>{
     const a=ADKAAR_MAP[name];
     const c=document.getElementById('adkaar-'+a.id); if(c)c.textContent='0 / '+a.max;
@@ -5091,8 +5617,11 @@ toggleHab = function(c){ _origToggleHab(c); updateCharts(); };
 if(!D.cib_soon) D.cib_soon={};
 function toggleCibSoon(card, key){
   card.classList.toggle('done');
-  card.querySelector('.sal-d').textContent = card.classList.contains('done') ? '✓' : '○';
-  D.cib_soon[key] = card.classList.contains('done'); S();
+  const isDone = card.classList.contains('done');
+  card.querySelector('.sal-d').textContent = isDone ? '✓' : '○';
+  D.cib_soon[key] = isDone; S();
+  const label = card.querySelector('.sal-n').textContent.trim();
+  if(isDone) addDiiwaanEntry('soon', key, label); else removeDiiwaanEntry('soon', key);
   const done = Object.values(D.cib_soon).filter(Boolean).length;
   const b = document.getElementById('cib-soon-badge'); if(b) b.textContent = done+'/2';
 }
@@ -5101,11 +5630,64 @@ function toggleCibSoon(card, key){
 if(!D.cib_duxa) D.cib_duxa={};
 function toggleCibDuxa(card, key){
   card.classList.toggle('done');
-  card.querySelector('.sal-d').textContent = card.classList.contains('done') ? '✓' : '○';
-  D.cib_duxa[key] = card.classList.contains('done'); S();
+  const isDone = card.classList.contains('done');
+  card.querySelector('.sal-d').textContent = isDone ? '✓' : '○';
+  D.cib_duxa[key] = isDone; S();
+  const label = card.querySelector('.sal-n').textContent.trim();
+  if(isDone) addDiiwaanEntry('duxa', key, label); else removeDiiwaanEntry('duxa', key);
   const done = Object.values(D.cib_duxa).filter(Boolean).length;
   const b = document.getElementById('cib-duxa-badge'); if(b) b.textContent = done+'/2';
 }
+
+/* ═══════════════════════════════════
+   DIIWAANKA MAANTA — Auto-log ibaadooyinka
+   (Automation + Manual delete/undo, isku qaab-dhismeed la
+   mid ah "Kharashyada Maanta")
+═══════════════════════════════════ */
+const DIIWAAN_IC = {duxa:'☀️', soon:'🌙'};
+function addDiiwaanEntry(type, key, label){
+  const id = type+'_'+key;
+  if(D.diiwaan_maanta.some(e=>e.id===id && e.date===TODAY)) return; // horeba diiwaangashan
+  D.diiwaan_maanta.push({id, type, key, label, date:TODAY, ts:Date.now()});
+  S(); renderDiiwaanMaanta();
+}
+function removeDiiwaanEntry(type, key){
+  const id = type+'_'+key;
+  D.diiwaan_maanta = D.diiwaan_maanta.filter(e=>!(e.id===id && e.date===TODAY));
+  S(); renderDiiwaanMaanta();
+}
+function delDiiwaanEntry(id){
+  const entry = D.diiwaan_maanta.find(e=>e.id===id && e.date===TODAY);
+  if(!entry) return;
+  // Ka laabasho (Undo): status-ka ibaadada ka saar 'done'
+  if(entry.type==='duxa') D.cib_duxa[entry.key]=false;
+  if(entry.type==='soon') D.cib_soon[entry.key]=false;
+  S();
+  const sel = entry.type==='duxa' ? 'toggleCibDuxa' : 'toggleCibSoon';
+  document.querySelectorAll(`[onclick*="${sel}(this,'${entry.key}')"]`).forEach(card=>{
+    card.classList.remove('done');
+    const d=card.querySelector('.sal-d'); if(d) d.textContent='○';
+  });
+  const doneDuxa = Object.values(D.cib_duxa).filter(Boolean).length;
+  const bDuxa = document.getElementById('cib-duxa-badge'); if(bDuxa) bDuxa.textContent = doneDuxa+'/2';
+  const doneSoon = Object.values(D.cib_soon).filter(Boolean).length;
+  const bSoon = document.getElementById('cib-soon-badge'); if(bSoon) bSoon.textContent = doneSoon+'/2';
+  D.diiwaan_maanta = D.diiwaan_maanta.filter(e=>e.id!==id || e.date!==TODAY);
+  S(); renderDiiwaanMaanta();
+}
+function renderDiiwaanMaanta(){
+  const el=document.getElementById('diiwaan-maanta-list'); if(!el)return;
+  const items=D.diiwaan_maanta.filter(e=>e.date===TODAY);
+  const badgeEl=document.getElementById('diiwaan-maanta-badge'); if(badgeEl) badgeEl.textContent=items.length;
+  if(!items.length){ el.innerHTML='<div class="empty">Cibaado lama diiwaangelin maanta</div>'; return; }
+  el.innerHTML = items.map(e=>`
+    <div class="entry" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div><div class="entry-b"><b>${DIIWAAN_IC[e.type]||'✅'} ${e.label}</b></div><div class="entry-dt">${new Date(e.ts).toLocaleTimeString('so-SO',{hour:'2-digit',minute:'2-digit'})}</div></div>
+      <button class="book-del" onclick="delDiiwaanEntry('${e.id}')">🗑️</button>
+    </div>
+  `).join('');
+}
+renderDiiwaanMaanta();
 
 // Restore saved states
 function initCibExtra(){
@@ -5535,13 +6117,11 @@ function buildSearchIndex(){
     {id:'warbixinta',  ic:'📊', title:'Warbixinta',       sub:'Isbuuc iyo bil'},
     {id:'waxbarasho',  ic:'🎓', title:'Waxbarasho',       sub:'Jaamacada, Maktabad, Xirfado, Luqad'},
     {id:'fikradaha',   ic:'💡', title:'Fikradaha',        sub:'Fikradahaaga'},
-    {id:'keyd',        ic:'🏦', title:'Keydka',           sub:'Lacagta la keydsaday'},
-    {id:'dhaqaale',    ic:'💰', title:'Dhaqaalaha',       sub:'Kharashka'},
-    {id:'kharash',     ic:'💸', title:'Kharashka',        sub:'Kharashka faahfaahinta'},
+    {id:'maal',        ic:'💰', title:'Maaraynta Dhaqaalaha', sub:'Kharashka, Keydka, Dakhliga, Deyn'},
     {id:'mashruuca',   ic:'🚀', title:'Mashruuca A',      sub:'Tasks + qoraalka'},
     {id:'caafimaad',   ic:'🧘', title:'Caafimaadka',      sub:'Culays, biyo, dareen, nadaafad'},
     {id:'dhiiri',      ic:'🏆', title:'Dhiirigelinta',    sub:'21-day challenge'},
-    {id:'hn-xikmad',   ic:'💎', title:'Xikmad & Dhambaalo',sub:'Horumarka Nolol'},
+    {id:'hn-xikmad',   ic:'💎', title:'Dhambaalo',sub:'Horumarka Nolol'},
     {id:'hn-overview', ic:'📊', title:'Overview 90',      sub:'Heatmap'},
     {id:'profile',     ic:'👤', title:'My Profile',       sub:'Macluumaadkaaga'},
   ];
@@ -5602,7 +6182,7 @@ function buildSearchIndex(){
 
   // ── Kharash ──
   (D.dq_kharash||[]).slice(0,8).forEach(k => idx.push({
-    type:'kharash', id:'dhaqaale', ic:'💸',
+    type:'kharash', id:'maal', ic:'💸',
     title:k.name, sub:'Kharash · $'+k.amount+' · '+k.date,
     keywords:(k.name+' '+k.type).toLowerCase()
   }));
@@ -6467,8 +7047,330 @@ if(window.matchMedia('(display-mode: standalone)').matches ||
   go=function(id,el){ _go2(id,el); setTimeout(initDrag,200); };
 })();
 
+/* ═══════════════════════════════════════════════
+   PAGE CHROME: Tagging Header · Meta-Data Block ·
+   Global Archive Link · Log/Timeline (auto-log)
+═══════════════════════════════════════════════ */
+(function(){
+  const PAGE_META = {
+    'dashboard'  : {cat:'Guriga',              color:'teal',   icon:'🏠'},
+    'jadwal'     : {cat:'Guriga',              color:'teal',   icon:'📅'},
+    'hawlaha'    : {cat:'Guriga',              color:'teal',   icon:'✅'},
+    'qoraal'     : {cat:'Guriga',              color:'teal',   icon:'📔'},
+    'cibaado'    : {cat:'Guriga',              color:'teal',   icon:'🤲'},
+    'dhiiri'     : {cat:'Guriga',              color:'teal',   icon:'🏆'},
+    'abaalmarin' : {cat:'Guriga',              color:'teal',   icon:'🎁'},
+    'yoolalka'   : {cat:'Goobaha',             color:'blue',   icon:'🎯'},
+    'warbixinta' : {cat:'Goobaha',             color:'blue',   icon:'📊'},
+    'fikradaha'  : {cat:'Goobaha',             color:'blue',   icon:'💡'},
+    'caafimaad'  : {cat:'Goobaha',             color:'blue',   icon:'🧘'},
+    'waxbarasho' : {cat:'Goobaha',             color:'blue',   icon:'🎓'},
+    'hn-xikmad'  : {cat:'Horumarka Nolol',     color:'purple', icon:'💎'},
+    'hn-overview': {cat:'Horumarka Nolol',     color:'purple', icon:'📊'},
+    'maal'       : {cat:'Maareynta Dhaqaalaha',color:'green',  icon:'💰'},
+    'mashruuca'  : {cat:'Mashruucyada',        color:'red',    icon:'🚀'},
+    'profile'    : {cat:'Nidaam',              color:'slate',  icon:'👤'},
+    'settings'   : {cat:'Nidaam',              color:'slate',  icon:'⚙️'}
+  };
+  const PAGE_NAMES = {
+    'dashboard':'Dashboard','jadwal':'Jadwalka','hawlaha':'Hawlaha','qoraal':'Qoraallada',
+    'cibaado':'Cibaadooyinka','dhiiri':'Dhiirigelinta','abaalmarin':'Abaalmarina',
+    'yoolalka':'Yoolalka','warbixinta':'Warbixinta','fikradaha':'Fikradaha',
+    'caafimaad':'Caafimaadka','waxbarasho':'Waxbarasho','hn-xikmad':'Dhambaalo',
+    'hn-overview':'Overview 90','maal':'Maaraynta Dhaqaalaha','mashruuca':'Mashruuca A',
+    'profile':'My Profile','settings':'Settings'
+  };
+  const LOG_KEY = 'nlos_activity_log';
 
+  function statusLabel(s){ return s==='done'?'✅ La dhammeeyay': s==='paused'?'⏸️ Sugaya':'🟢 Firfircoon'; }
 
+  window.cyclePageStatus = function(id){
+    const order=['active','paused','done'];
+    const key='pg_status_'+id;
+    const cur = localStorage.getItem(key)||'active';
+    const next = order[(order.indexOf(cur)+1)%order.length];
+    localStorage.setItem(key,next);
+    const el = document.getElementById('pg-status-'+id);
+    if(el){ el.className='pg-status '+next; const t=el.querySelector('.pg-status-txt'); if(t) t.textContent=statusLabel(next); }
+  };
+
+  window.goArchive = function(id){
+    const navEl = document.querySelector(`[onclick*="go('${id}'"]`);
+    if(navEl) go(id, navEl);
+  };
+
+  function renderLogFor(pageId){
+    const listEl = document.getElementById('pg-log-list-'+pageId);
+    if(!listEl) return;
+    let log = [];
+    try{ log = JSON.parse(localStorage.getItem(LOG_KEY)||'[]'); }catch(e){ log=[]; }
+    const today = new Date().toDateString();
+    const entries = log.filter(e=>e.page===pageId && new Date(e.ts).toDateString()===today).slice(0,15);
+    if(!entries.length){ listEl.innerHTML='<div class="pg-log-empty">Wali wax lama diiwaangelin maanta.</div>'; return; }
+    listEl.innerHTML = entries.map(e=>`<div class="pg-log-item"><span class="pg-log-dot"></span><span class="pg-log-time">${new Date(e.ts).toLocaleTimeString('so-SO',{hour:'2-digit',minute:'2-digit'})}</span><span class="pg-log-txt">${e.text}</span></div>`).join('');
+  }
+  function renderAllLogs(){ Object.keys(PAGE_META).forEach(renderLogFor); }
+  window.renderAllLogs = renderAllLogs;
+
+  window.logActivity = function(pageId, text){
+    if(!PAGE_META[pageId]) return;
+    let log = [];
+    try{ log = JSON.parse(localStorage.getItem(LOG_KEY)||'[]'); }catch(e){ log=[]; }
+    log.unshift({ts:Date.now(), page:pageId, text});
+    if(log.length>300) log = log.slice(0,300);
+    localStorage.setItem(LOG_KEY, JSON.stringify(log));
+    renderLogFor(pageId);
+  };
+
+  function initPageChrome(){
+    document.querySelectorAll('.page[id^="page-"]').forEach(pageEl=>{
+      const id = pageEl.id.replace('page-','');
+      const meta = PAGE_META[id];
+      if(!meta || pageEl.querySelector('.pg-chrome-top')) return;
+
+      const createdKey='pg_created_'+id;
+      let created = localStorage.getItem(createdKey);
+      if(!created){
+        created = new Date().toLocaleDateString('so-SO',{year:'numeric',month:'short',day:'numeric'});
+        localStorage.setItem(createdKey, created);
+      }
+      const status = localStorage.getItem('pg_status_'+id) || 'active';
+      const archiveIds = Object.keys(PAGE_META).filter(k=>k!==id && PAGE_META[k].cat===meta.cat);
+
+      const top = document.createElement('div');
+      top.className='pg-chrome-top';
+      top.innerHTML =
+        `<div class="pg-tag ${meta.color}">${meta.icon} ${meta.cat}</div>`+
+        `<div class="pg-meta">`+
+          `<span>🗓️ <b>Taariikhda la abuuray:</b> ${created}</span>`+
+          `<span class="pg-status ${status}" id="pg-status-${id}" onclick="cyclePageStatus('${id}')"><span class="dot"></span><span class="pg-status-txt">${statusLabel(status)}</span></span>`+
+        `</div>`+
+        (archiveIds.length ? `<div class="pg-archive"><span class="pg-archive-lbl">🗂️ Xogta la xiriirta:</span>${archiveIds.map(a=>`<span class="pg-arc-chip" onclick="goArchive('${a}')">${PAGE_META[a].icon} ${PAGE_NAMES[a]||a}</span>`).join('')}</div>` : '');
+      pageEl.insertBefore(top, pageEl.firstChild);
+
+      const bottom = document.createElement('div');
+      bottom.className='pg-chrome-bottom pg-log';
+      bottom.innerHTML =
+        `<div class="pg-log-h"><div class="pg-log-title">🕓 Diiwaanka Maanta</div><span class="sb" style="font-size:10.5px">Auto-log</span></div>`+
+        `<div id="pg-log-list-${id}" class="pg-log-list"><div class="pg-log-empty">Wali wax lama diiwaangelin maanta.</div></div>`;
+      pageEl.appendChild(bottom);
+    });
+    renderAllLogs();
+  }
+
+  // Auto-log: watch clicks on any of this app's toggle-style controls (toggleSal, toggleHab, toggleTask, ...)
+  document.addEventListener('click', function(e){
+    const el = e.target.closest('[onclick^="toggle"]');
+    if(!el) return;
+    const pageEl = el.closest('.page[id^="page-"]');
+    if(!pageEl) return;
+    const pageId = pageEl.id.replace('page-','');
+    if(!PAGE_META[pageId]) return;
+    let label = '';
+    const labelEl = el.querySelector('.sal-n,.hc-n,.task-nm,.nad-nm,.nad-info,span');
+    label = (labelEl ? labelEl.textContent : el.textContent || '').trim().replace(/\s+/g,' ').slice(0,60);
+    if(!label) label = 'Waxqabad la sameeyay';
+    setTimeout(()=>{ logActivity(pageId, `✔️ ${label}`); }, 30);
+  }, true);
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', initPageChrome);
+  } else {
+    initPageChrome();
+  }
+  const _go3 = go;
+  go = function(id, el){ _go3(id, el); renderAllLogs(); };
+})();
+
+</script>
+
+<!-- ══════════════ GLOBAL ARCHIVE ══════════════ -->
+<style>.btn-sm.active{border-color:var(--amber);color:var(--amber);background:var(--amber-pale)}</style>
+
+<button id="ga-fab" onclick="openGlobalArchive()" title="Global Archive"
+  style="position:fixed;bottom:24px;left:20px;z-index:15;width:54px;height:54px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,#1E3A5F,#7C3AED);color:#fff;font-size:22px;
+  cursor:pointer;box-shadow:0 4px 18px rgba(30,58,95,.45);
+  transition:all .3s;display:flex;align-items:center;justify-content:center">
+  🗂️
+</button>
+
+<div id="ga-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(15,23,42,.55);backdrop-filter:blur(2px);align-items:flex-end;justify-content:center">
+  <div style="background:var(--bg);width:100%;max-width:720px;max-height:88vh;border-radius:20px 20px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden">
+    <div style="background:linear-gradient(130deg,#1E3A5F 0%,#2563EB 50%,#7C3AED 100%);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:10px;color:#fff">
+        <span style="font-size:22px">🗂️</span>
+        <div><div style="font-weight:800;font-size:16px">Global Archive</div><div style="font-size:11.5px;opacity:.85">Taariikhda dhammaan bogagga</div></div>
+      </div>
+      <button onclick="closeGlobalArchive()" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap;flex-shrink:0;border-bottom:1px solid var(--border)">
+      <button class="btn-sm active" id="ga-f-all"      onclick="filterGlobalArchive('all',this)"      style="justify-content:center">🗂️ Dhammaan</button>
+      <button class="btn-sm" id="ga-f-guriga"    onclick="filterGlobalArchive('guriga',this)"    style="justify-content:center">🏠 Guriga</button>
+      <button class="btn-sm" id="ga-f-goobaha"   onclick="filterGlobalArchive('goobaha',this)"   style="justify-content:center">🎯 Goobaha</button>
+      <button class="btn-sm" id="ga-f-horumarka" onclick="filterGlobalArchive('horumarka',this)" style="justify-content:center">⭐ Horumarka Nolol</button>
+      <button class="btn-sm" id="ga-f-maal"      onclick="filterGlobalArchive('maal',this)"      style="justify-content:center">💰 Maaraynta Dhaqaalaha</button>
+      <button class="btn-sm" id="ga-f-mashruuc"  onclick="filterGlobalArchive('mashruuc',this)"  style="justify-content:center">🚀 Mashruucyada</button>
+    </div>
+    <div id="ga-timeline" style="overflow-y:auto;padding:16px 20px 30px"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   GLOBAL ARCHIVE — Timeline ka soo ururiya
+   dhammaan bogagga (real-time, akhris kaliya)
+══════════════════════════════════════════ */
+let _gaFilter='all';
+
+const PAGE_GROUPS={
+  guriga:[
+    {key:'dashboard',   label:'🏠 Dashboard'},
+    {key:'jadwal',      label:'📅 Jadwalka'},
+    {key:'hawlaha',     label:'✅ Hawlaha'},
+    {key:'qoraal',      label:'📔 Qoraallada'},
+    {key:'cibaado',     label:'🤲 Cibaadada'},
+    {key:'dhiiri',      label:'🏆 Dhiirigelinta'},
+    {key:'abaalmarin',  label:'🎁 Abaalmarinta'},
+  ],
+  goobaha:[
+    {key:'yoolalka',    label:'🎯 Yoolalka'},
+    {key:'warbixin',    label:'📊 Warbixinta'},
+    {key:'fikrad',      label:'💡 Fikradaha'},
+    {key:'caafimaad',   label:'🧘 Caafimaadka'},
+    {key:'waxbarasho',  label:'🎓 Waxbarasho'},
+  ],
+  horumarka:[
+    {key:'dhambaal',    label:'💎 Dhambaalo'},
+    {key:'overview',    label:'📊 Guud-mar'},
+  ],
+  maal:[
+    {key:'kharash',     label:'💸 Kharashka'},
+    {key:'dakhli',      label:'💵 Dakhliga'},
+    {key:'keyd',        label:'🏦 Keydka'},
+    {key:'deynlay',     label:'📥 Deyn (La i leeyahay)'},
+    {key:'deynku',      label:'📤 Deyn (Aan ku leeyahay)'},
+  ],
+  mashruuc:[
+    {key:'mashruuca',   label:'🚀 Mashruuca A'},
+  ],
+};
+
+function buildGlobalArchive(){
+  const items=[];
+
+  (D.dq_kharash||[]).forEach(k=>items.push({date:k.date,cat:'maal',page:'kharash',ic:'💸',text:k.name,sub:`-${dqFmt(k.amount)}`}));
+  (D.dq_income||[]).forEach(k=>items.push({date:k.date,cat:'maal',page:'dakhli',ic:'💵',text:k.source,sub:`+${dqFmt(k.amount)}`}));
+  (D.keyd_log||[]).forEach(k=>items.push({date:k.date,cat:'maal',page:'keyd',ic:'🏦',text:k.note||'Keyd la geliyay',sub:`+${dqFmt(k.amount)}`}));
+  (D.deyn_lay||[]).forEach(k=>items.push({date:k.date,cat:'maal',page:'deynlay',ic:'📥',text:k.name,sub:dqFmt(k.amount)}));
+  (D.deyn_ku||[]).forEach(k=>items.push({date:k.date,cat:'maal',page:'deynku',ic:'📤',text:k.name,sub:dqFmt(k.amount)}));
+
+  (D.notes||[]).forEach(n=>items.push({date:n.date,cat:'guriga',page:'qoraal',ic:'📔',text:n.text||'Qoraal',sub:''}));
+  (D.journal||[]).forEach(j=>items.push({date:j.date,cat:'guriga',page:'dashboard',ic:'📝',text:'Xasuusqorka maalinle',sub:j.q1||j.q2||j.q3||''}));
+  (D.ma_tasks||[]).forEach(t=>items.push({date:t.date,cat:'guriga',page:'hawlaha',ic:t.done?'✅':'📋',text:t.text,sub:t.done?'Dhammaystay':'Socda'}));
+  (D.diiwaan_maanta||[]).forEach(x=>items.push({date:x.date,cat:'guriga',page:'cibaado',ic:x.type==='duxa'?'☀️':'🌙',text:x.label,sub:'Cibaado la dhammeystiray'}));
+
+  (D.salah_log||[]).forEach(x=>items.push({date:x.date,cat:'guriga',page:'cibaado',ic:x.mode==='masjid'?'🕌':(x.mode==='guriga'?'🏠':'🕋'),text:`Salaada ${x.name}`,sub:x.mode==='masjid'?`🕌 Masjid · ${x.pts||30} pts`:x.mode==='guriga'?`🏠 Guriga · ${x.pts||3} pts`:'La tukaday'}));
+  (D.sunnah_log||[]).forEach(x=>items.push({date:x.date,cat:'guriga',page:'cibaado',ic:'🕋',text:x.name,sub:'Sunnah Rawaatib'}));
+  (D.adkaar_log||[]).forEach(x=>items.push({date:x.date,cat:'guriga',page:'cibaado',ic:'📿',text:x.name,sub:`Dhammaystay ${x.max}x`}));
+  (D.dh_21_done||[]).forEach((d,i)=>items.push({date:d,cat:'guriga',page:'dhiiri',ic:'💎',text:'21-Day Challenge',sub:`Maalin ${i+1}/21`}));
+
+  (D.fikrad||[]).forEach(f=>items.push({date:f.date,cat:'goobaha',page:'fikrad',ic:'💡',text:f.title,sub:f.cat||''}));
+  (D.health||[]).forEach(h=>items.push({date:h.date,cat:'goobaha',page:'caafimaad',ic:'🧘',text:'Caafimaad diiwaan',sub:h.note||(h.mood?('Dareen: '+h.mood):'')}));
+  (D.books||[]).forEach(b=>items.push({date:b.date,cat:'goobaha',page:'waxbarasho',ic:'📚',text:`Buug: ${b.title}`,sub:b.auth||''}));
+  (D.learning||[]).forEach(l=>items.push({date:l.date,cat:'goobaha',page:'waxbarasho',ic:'⚡',text:`Xirfad: ${l.topic||l.skill}`,sub:l.skill||''}));
+  (D.xiisad||[]).forEach(x=>items.push({date:x.date,cat:'goobaha',page:'yoolalka',ic:'🎯',text:x.name,sub:`${x.grade} Dhibco`}));
+
+  (D.hn_xikmad_custom||[]).forEach(x=>items.push({date:x.date,cat:'horumarka',page:'dhambaal',ic:'💎',text:'Dhambaal la kaydiyay',sub:x.text||''}));
+
+  (D.master_sched||[]).filter(x=>x.status).forEach(x=>items.push({date:TODAY,cat:'mashruuc',page:'mashruuca',ic:'✅',text:x.topic,sub:`Todobaad ${x.week} · ${x.day}`}));
+
+  return items.filter(i=>i.date).sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+function renderArchiveRow(i){
+  return `<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+    <span style="font-size:16px;flex-shrink:0">${i.ic}</span>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12.5px;font-weight:600;color:var(--text)">${i.text}</div>
+      ${i.sub?`<div style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.sub}</div>`:''}
+    </div>
+    <div style="font-size:10.5px;color:var(--text3);flex-shrink:0;white-space:nowrap">${i.date}</div>
+  </div>`;
+}
+
+function renderGlobalArchive(){
+  const el=document.getElementById('ga-timeline'); if(!el)return;
+  const allItems=buildGlobalArchive();
+
+  if(_gaFilter==='all'){
+    if(!allItems.length){ el.innerHTML='<div class="empty" style="padding:40px 0">Wax weli kuma jiro Global Archive-ka</div>'; return; }
+    const groups={};
+    allItems.forEach(i=>{ (groups[i.date]=groups[i.date]||[]).push(i); });
+    el.innerHTML=Object.keys(groups).map(date=>`<div style="margin-bottom:16px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--text3);text-transform:uppercase;margin-bottom:4px">📆 ${date}</div>
+      ${groups[date].map(renderArchiveRow).join('')}
+    </div>`).join('');
+    return;
+  }
+
+  const pages=PAGE_GROUPS[_gaFilter]||[];
+  el.innerHTML=pages.map(p=>{
+    const pageItems=allItems.filter(i=>i.page===p.key);
+    return `<details style="margin-bottom:10px;border:1px solid var(--border);border-radius:12px;overflow:hidden" ${pageItems.length?'open':''}>
+      <summary style="cursor:pointer;list-style:none;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--surface);font-size:13.5px;font-weight:700;color:var(--text)">
+        <span>${p.label}</span>
+        <span style="font-size:11px;font-weight:700;color:${pageItems.length?'var(--purple)':'var(--text3)'};background:${pageItems.length?'#F5F3FF':'var(--bg)'};padding:2px 9px;border-radius:20px">${pageItems.length}</span>
+      </summary>
+      <div style="padding:4px 14px 10px">
+        ${pageItems.length ? pageItems.map(renderArchiveRow).join('') : '<div style="padding:10px 0;font-size:12px;color:var(--text3)">Wax weli lagama diiwaan gelin bogtan</div>'}
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function openGlobalArchive(){
+  document.getElementById('ga-modal').style.display='flex';
+  renderGlobalArchive();
+}
+function closeGlobalArchive(){
+  document.getElementById('ga-modal').style.display='none';
+}
+function filterGlobalArchive(cat, btn){
+  _gaFilter=cat;
+  document.querySelectorAll('#ga-modal .btn-sm').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderGlobalArchive();
+}
+</script>
+
+<!-- ══════════════ SUPABASE CONNECTION ══════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ══════════════════════════════════════════
+   SUPABASE — Xidhiidhka Backend-ka
+   (Ma taabanayo qaab-dhismeedka dashboard-ka —
+   waa uun client-ka + fetch, isaga oo madax-bannaan)
+══════════════════════════════════════════ */
+const supabaseUrl = 'https://krqcztgcwngwbhyijiff.supabase.co';
+const supabaseKey = 'sb_publishable_2Ub1BW_SSoOYYVh0AuvtGQ_HtIA2mUk';
+const sb = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+async function fetchLifeOsData(){
+  try{
+    const { data, error } = await sb.from('life_os_data').select('*');
+    if(error){
+      console.error('Supabase error:', error.message);
+      return null;
+    }
+    console.log('Xogtaada Supabase:', data);
+    return data;
+  } catch(err){
+    console.error('Supabase connection failed:', err);
+    return null;
+  }
+}
+fetchLifeOsData();
 </script>
 </body>
 </html>
