@@ -17641,6 +17641,11 @@ if (document.readyState === 'loading') {
 } else {
   loadAnalysisData();
 }
+const savedPassword = "12345"; 
+  let userPassword = prompt("Fadlan geli Password-ka si aad u gasho Noloshayda-OS:");
+  if (userPassword !== savedPassword) {
+      document.body.innerHTML = "<h2 style='text-align:center; margin-top:20vh; font-family:sans-serif; color:red;'>Waa la diiday gelitaankaaga! Password-ka waa qalad.</h2>";
+  }
 </script>
 </body>
 </html>
