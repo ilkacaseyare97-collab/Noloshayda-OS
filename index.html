@@ -831,7 +831,7 @@ body.editing [data-was-edited]:focus{
 }
 /* ── Minimum touch target size (accessibility) on touch devices ── */
 @media (max-width:768px){
-  button,.btn-sm,.btn-g,.btn-p,.btn-d,.btn-add,.day-tab-btn,.tab-btn,.jtb,.menu-btn{min-height:40px}
+  button,.btn-sm,.btn-g,.btn-p,.btn-d,.btn-add,.day-tab-btn,.tab-btn,.jtb,.menu-btn,.action-btn,.edit-mode-btn,.tb{min-height:40px}
   .sb-item{min-height:30px}
 }
 /* ── Tablets (481px–768px) ── */
@@ -1304,10 +1304,176 @@ body.editing #settings-edit-mode{display:block !important}
   #nad-list{grid-template-columns:1fr}
 }
 
+/* ══════════ AUTH SCREEN ══════════ */
+#authScreen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--teal) 0%,var(--teal-mid) 45%,var(--amber) 100%);
+  padding:24px 16px;overflow-y:auto}
+.auth-card{width:100%;max-width:420px;background:var(--surface);border-radius:20px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.28);animation:authIn .35s ease}
+@keyframes authIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.auth-hero{background:linear-gradient(135deg,var(--amber),var(--amber-h));padding:36px 24px 26px;text-align:center;color:#fff}
+.auth-hero-ic{font-size:42px;margin-bottom:6px}
+.auth-hero-title{font-family:'Lora',serif;font-size:23px;font-weight:800;letter-spacing:.01em}
+.auth-hero-sub{font-size:12px;opacity:.92;margin-top:2px;font-weight:500}
+.auth-body{padding:26px 24px 6px}
+.auth-label{display:block;font-size:12px;font-weight:700;color:var(--text2);margin:0 0 6px;letter-spacing:.01em}
+.auth-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r3);
+  background:var(--bg);font-family:inherit;font-size:13.5px;color:var(--text);outline:none;
+  transition:border-color .15s,box-shadow .15s;margin-bottom:16px}
+.auth-input:focus{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-pale)}
+.auth-input.err{border-color:var(--red)}
+.auth-pw-wrap{position:relative}
+.auth-pw-wrap .auth-input{padding-right:42px}
+.auth-pw-eye{position:absolute;right:13px;top:11px;font-size:15px;cursor:pointer;opacity:.6;user-select:none;line-height:1}
+.auth-pw-eye:hover{opacity:1}
+.auth-btn{width:100%;padding:13px;border:none;border-radius:var(--r3);
+  background:linear-gradient(135deg,var(--amber),var(--amber-h));color:#fff;font-family:inherit;
+  font-size:14px;font-weight:700;cursor:pointer;transition:filter .15s,transform .1s;margin-top:2px}
+.auth-btn:hover{filter:brightness(1.06)}
+.auth-btn:active{transform:scale(.98)}
+.auth-switch{text-align:center;font-size:12.5px;color:var(--text2);margin:18px 0 20px}
+.auth-switch a{color:var(--amber-h);font-weight:700;text-decoration:none;cursor:pointer}
+.auth-switch a:hover{text-decoration:underline}
+.auth-foot{text-align:center;font-size:11px;color:var(--text3);padding:12px 20px 20px;border-top:1px solid var(--border-l)}
+.auth-msg{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;line-height:1.4;font-weight:700;padding:12px 14px;
+  border-radius:var(--r3);margin-bottom:16px;animation:authMsgIn .25s ease;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+@keyframes authMsgIn{0%{opacity:0;transform:translateY(-6px) scale(.98)}60%{opacity:1;transform:translateY(1px) scale(1.01)}100%{opacity:1;transform:none}}
+.auth-msg-err{background:var(--red-pale);color:#B91C1C;border:2px solid #EF4444}
+.auth-msg-ok{background:var(--green-pale);color:#15803D;border:2px solid #22C55E}
+.auth-remember{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text2);
+  margin:0 0 18px;cursor:pointer;user-select:none}
+.auth-remember input{width:16px;height:16px;accent-color:var(--amber)}
+#auth-user-badge{font-size:12px;white-space:nowrap}
+
+/* ══════════════════════════════
+   FULL RESPONSIVE LAYER — dhammaan cabbirrada shaashadda (mobile → tablet → laptop → desktop)
+   Kuwan waa kaliya dheeraad ah (additive); ma bedelayaan naqshadda, xogta, ama shaqada hore.
+══════════════════════════════ */
+
+/* ── XAL GUUD (root-cause fix): qaybaha flex/grid-ka ee ku jira, sida caadiga
+   ah, waxay leeyihiin "min-width:auto" oo ka dhigi kara in aanay is soo koobin
+   marka qoraalkoodu (white-space:nowrap / ellipsis) dherer yahay — taasoo
+   sababi karta in bogga oo dhan uu ka ballaadhan yahay shaashadda taleefanka
+   (halkaas oo tabs/kaadhadhku ay uga qarsoomi lahaayeen dhinaca midig). Setting
+   min-width:0 kaliya waxay ka saartaa xadkaas caadiga ah — style="min-width:.."
+   ama .class{min-width:..} oo si gaar ah loo dhigay wali way sii shaqeynayaan
+   (sida .btn-sm min-width:110px) sababtoo ah way ka sarreeyaan xeerkan guud. */
+*,*::before,*::after{min-width:0}
+.page,.card,.sc,.analysis-container,.main{min-width:0}
+
+
+html{overflow-wrap:break-word}
+.card-title,.task-nm,.entry-b,.hero-nm,.ph h1,.sb-item,.bc,.card-sub,.tb,.sb-name{overflow-wrap:break-word}
+
+/* Tab-row (topbar) ha noqoto mid la jiiddo marka aanay ku filnayn ballaca shaashadda,
+   halkii ay u qarsoomi lahayd tabs-ka dambe */
+@media(max-width:1024px){
+  .tab-list{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-width:0}
+  .tab-list::-webkit-scrollbar{display:none}
+}
+
+/* ── Kaadhadhka la habeeyay (style="" inline) — si otomaatig ah hal/laba tiir ha isu beddelaan ──
+   (Waxay dhammaystirayaan fasallada grid ee horay loo maareeyay) */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat(4,1fr)"],
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:1fr 1fr 1fr"],
+  [style*="grid-template-columns:2fr 1fr 1fr"]{grid-template-columns:1fr 1fr!important}
+  [style*="grid-template-columns:repeat(6,1fr)"],
+  [style*="grid-template-columns:repeat(8,1fr)"]{grid-template-columns:repeat(4,1fr)!important}
+  [style*="grid-template-columns:repeat(7,1fr)"]{gap:4px!important}
+  [style*="grid-template-columns:repeat(15,1fr)"]{gap:3px!important}
+}
+@media(max-width:480px){
+  [style*="grid-template-columns:repeat(2,1fr)"],
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:repeat(4,1fr)"],
+  [style*="grid-template-columns:1fr 1fr"],
+  [style*="grid-template-columns:1fr 1fr 1fr"],
+  [style*="grid-template-columns:2fr 1fr 1fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:repeat(6,1fr)"],
+  [style*="grid-template-columns:repeat(8,1fr)"]{grid-template-columns:repeat(3,1fr)!important}
+  [style*="grid-template-columns:repeat(7,1fr)"]{gap:3px!important}
+}
+
+/* ── Tablet dhexe (769–1024px): sidebar sabab u haysta bogga desktop-ka, laakiin
+   qaybaha ha isticmaalaan booska bannaan si dheellitiran ── */
+@media(min-width:769px) and (max-width:1024px){
+  .an-grid-3,.hlx-cmp-grid,.result-categories{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── Shaashadaha waaweyn (≥1600px): booska dhinacyada ha ahaado mid isku dheellitiran,
+   halkii bannaan oo aan faa'iido lahayn ── */
+@media(min-width:1600px){
+  .page{padding-left:40px;padding-right:40px}
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 </head>
 <body>
+
+<!-- ══════════ AUTH SCREEN (Login / Register) ══════════ -->
+<div id="authScreen">
+  <div class="auth-card">
+    <div class="auth-hero">
+      <div class="auth-hero-ic">🕌</div>
+      <div class="auth-hero-title">Noloshayda</div>
+      <div class="auth-hero-sub">Islamic Life OS</div>
+    </div>
+    <div class="auth-body">
+
+      <!-- ── REGISTER FORM ── -->
+      <form id="auth-register-form" onsubmit="return handleRegister(event)" autocomplete="off">
+        <div id="auth-register-msg" class="auth-msg auth-msg-err" style="display:none"></div>
+
+        <label class="auth-label">👤 Magaca</label>
+        <input class="auth-input" id="reg-name" type="text" placeholder="Magacaaga oo dhamaystiran...">
+
+        <label class="auth-label">📧 Iimaylka</label>
+        <input class="auth-input" id="reg-email" type="email" placeholder="Iimaylkaaga...">
+
+        <label class="auth-label">🔑 Password</label>
+        <div class="auth-pw-wrap">
+          <input class="auth-input" id="reg-pass" type="password" placeholder="Password-kaaga...">
+          <span class="auth-pw-eye" onclick="togglePw('reg-pass',this)">👁️</span>
+        </div>
+
+        <label class="auth-label">🔑 Xaqiiji Password</label>
+        <div class="auth-pw-wrap">
+          <input class="auth-input" id="reg-pass2" type="password" placeholder="Password dib u qor...">
+          <span class="auth-pw-eye" onclick="togglePw('reg-pass2',this)">👁️</span>
+        </div>
+
+        <button type="submit" class="auth-btn">📝 Is Diiwaan Geli</button>
+      </form>
+
+      <!-- ── LOGIN FORM ── -->
+      <form id="auth-login-form" onsubmit="return handleLogin(event)" style="display:none" autocomplete="off">
+        <div id="auth-login-msg" class="auth-msg auth-msg-err" style="display:none"></div>
+
+        <label class="auth-label">📧 Iimaylka</label>
+        <input class="auth-input" id="login-email" type="email" placeholder="Iimaylkaaga...">
+
+        <label class="auth-label">🔑 Password</label>
+        <div class="auth-pw-wrap">
+          <input class="auth-input" id="login-pass" type="password" placeholder="Password-kaaga...">
+          <span class="auth-pw-eye" onclick="togglePw('login-pass',this)">👁️</span>
+        </div>
+
+        <button type="submit" class="auth-btn">🔓 Soo Gal</button>
+      </form>
+
+      <div class="auth-switch">
+        <span id="auth-switch-to-login">Horey ma u diiwaan-gashanayd? <a onclick="showAuthTab('login')">🔓 Soo gal</a></span>
+        <span id="auth-switch-to-register" style="display:none">Account ma lihid? <a onclick="showAuthTab('register')">📝 Is-diiwaan geli</a></span>
+      </div>
+    </div>
+    <div class="auth-foot">☁️ Akoonkaaga iyo xogtaadu waxay ku kaydsan yihiin Supabase Cloud — waxaad ka soo geli kartaa qalab kasta</div>
+  </div>
+</div>
+
+<div id="mainDashboard">
 
 <!-- ══════════ SIDEBAR ══════════ -->
 <aside class="sidebar" id="sidebar">
@@ -1388,6 +1554,7 @@ body.editing #settings-edit-mode{display:block !important}
       <button class="edit-mode-btn" id="edit-btn" onclick="toggleEditMode()">✏️ Edit</button>
       <button class="btn-g" onclick="incrementStreak()" title="Streak +1" style="color:var(--amber);font-weight:700;border-color:var(--amber-light)">🔥 Streak: <span id="global-streak">0</span></button>
       <button class="btn-g" onclick="go('settings',this)" title="Settings" style="font-size:16px;padding:5px 10px">⚙️</button>
+      <button class="btn-g" id="auth-user-badge" onclick="handleLogoutClick()" title="Ka bax">👤 <span id="auth-user-name-display">…</span> · Ka bax</button>
     </div>
   </div>
 
@@ -2590,9 +2757,7 @@ body.editing #settings-edit-mode{display:block !important}
     <!-- Refresh -->
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
       <button class="btn-g" style="flex:1;min-width:80px;padding:7px;font-size:11px" onclick="refreshAllReports()">🔄 Cusbooneysii</button>
-      <button class="btn-g" id="rc-preview-btn" style="flex:1;min-width:80px;padding:7px;font-size:11px" onclick="toggleRcPreview()">👁️ Tusaale</button>
     </div>
-    <div id="rc-preview-banner" style="display:none;background:#FEF3C7;border:1px solid #F59E0B;border-radius:var(--r2);padding:8px 12px;font-size:11px;font-weight:700;color:#92400E;margin-bottom:12px;text-align:center">🔍 TUSAALE — Xogtan ma aha tan dhabta ah, waa kaliya sida jaantusyadu u eegi doonaan haddii xog la buuxiyo</div>
 
     <!-- Report Tabs -->
     <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
@@ -5025,46 +5190,6 @@ body.editing #settings-edit-mode{display:block !important}
         </div>
       </div>
 
-      <!-- Supabase Cloud Sync -->
-      <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,#ECFEFF,#CFFAFE);border-color:#A5F3FC">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div style="font-size:13px;font-weight:700;color:var(--text)">☁️ Supabase Cloud Sync</div>
-          <span id="sb-conn-badge" style="font-size:11.5px;font-weight:700;color:var(--text3)">⚪ Lama xirin</span>
-        </div>
-        <p style="font-size:11.5px;color:var(--text2);margin-bottom:12px">
-          Xogtaadu had iyo jeer waxay ku kaydsan tahay taleefankaaga (localStorage), sida hore.
-          Haddii aad rabto inaad xog-kaydka Supabase ku darto (si aad qalab kale uga heli karto xogtaada),
-          geli macluumaadka hoose. <a href="https://supabase.com" target="_blank" style="color:var(--teal-mid)">supabase.com</a> waxaa lagu abuuraa akoon bilaash ah.
-        </p>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
-          <input class="inp" id="sb-url" placeholder="Supabase Project URL (https://xxxx.supabase.co)">
-          <input class="inp" id="sb-key" placeholder="Supabase Anon Public Key" type="password">
-          <div style="display:flex;gap:8px">
-            <input class="inp" id="sb-syncid" placeholder="Sync ID (otomaatig la sameeyaa)" style="flex:1">
-            <button class="btn-g" onclick="sbCopySyncId()" title="Koobiyee">📋</button>
-          </div>
-          <div style="font-size:10.5px;color:var(--text3)">⚠️ Sync ID-gan waa "furaha" xogtaada — ku kaydso meel ammaan ah, oo ku isticmaal qalab kasta oo aad rabto inaad xogtan kaga arki.</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-          <button class="btn-p" onclick="sbConnect()" style="flex:1;min-width:110px">🔗 Isku xir</button>
-          <button class="btn-g" onclick="pushToCloud(true)" style="flex:1;min-width:110px">⬆️ U dir Cloud-ka</button>
-          <button class="btn-g" onclick="pullFromCloud(true)" style="flex:1;min-width:110px">⬇️ Ka soo qaad</button>
-        </div>
-        <button onclick="sbDisconnect()" style="width:100%;padding:9px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--red);font-weight:600;cursor:pointer;font-size:12px;margin-bottom:8px">Jooji Sync-ga</button>
-        <div id="sb-status" style="font-size:11.5px;min-height:16px"></div>
-        <details style="margin-top:10px">
-          <summary style="font-size:11.5px;color:var(--teal-mid);cursor:pointer;font-weight:600">🛠️ SQL-ka loo baahan yahay (mid mar geli Supabase SQL Editor)</summary>
-          <pre style="font-size:10px;background:#0F172A;color:#7DD3FC;padding:10px;border-radius:8px;overflow-x:auto;margin-top:8px;white-space:pre-wrap">create table app_state (
-  sync_id text primary key,
-  data jsonb not null,
-  updated_at timestamptz not null default now()
-);
-alter table app_state enable row level security;
-create policy "allow all for anon" on app_state
-  for all using (true) with check (true);</pre>
-        </details>
-      </div>
-
       <!-- Backup -->
       <div class="card" style="margin-bottom:14px">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px">💾 Kaydinta &amp; Soo Celinta</div>
@@ -5141,8 +5266,19 @@ create policy "allow all for anon" on app_state
   </div>
 </div>
 
+</div><!-- /#mainDashboard -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script>
+/* ══════════════════════════════════════════
+   CHART COLORS — defined first so they are always
+   available even if a later statement throws
+══════════════════════════════════════════ */
+const RC_COLORS = { amber:'#F59E0B', teal:'#14B8A6', green:'#22C55E', purple:'#8B5CF6', red:'#EF4444', blue:'#3B82F6', gray:'#94A3B8', pink:'#EC4899' };
+const RC_PALETTE = [RC_COLORS.teal, RC_COLORS.amber, RC_COLORS.purple, RC_COLORS.green, RC_COLORS.red, RC_COLORS.blue, RC_COLORS.pink, RC_COLORS.gray];
+// Midabo dhiirran/muuqda (sida sawirrada tusaalaha) — loo isticmaalo bar/pie charts si ay u noqdaan kuwo xiiso badan
+const RC_VIVID = ['#EF4444','#22C55E','#F59E0B','#3B82F6','#EC4899','#8B5CF6','#14B8A6','#F97316','#6366F1','#84CC16'];
+
 /* ═══════════════════════════════════
    STATE + PERSIST
 ═══════════════════════════════════ */
@@ -5156,10 +5292,6 @@ try{
   D={};
 }
 const WC_NIGHTS=['Talaado','Arbaco','Khamiis','Jimce','Axad']; // hore ayaa loo qaaday si looga fogaado 'Cannot access before initialization'
-if(!D.daily_stats) D.daily_stats={}; // hore ayaa loo qaaday si looga fogaado 'Cannot read properties of undefined'
-const RC_COLORS = { amber:'#F59E0B', teal:'#14B8A6', green:'#22C55E', purple:'#8B5CF6', red:'#EF4444', blue:'#3B82F6', gray:'#94A3B8', pink:'#EC4899' }; // hore ayaa loo qaaday si looga fogaado 'Cannot access before initialization'
-const RC_PALETTE = [RC_COLORS.teal, RC_COLORS.amber, RC_COLORS.purple, RC_COLORS.green, RC_COLORS.red, RC_COLORS.blue, RC_COLORS.pink, RC_COLORS.gray];
-const RC_VIVID = ['#EF4444','#22C55E','#F59E0B','#3B82F6','#EC4899','#8B5CF6','#14B8A6','#F97316','#6366F1','#84CC16'];
 const def = (k,v) => { if(D[k]===undefined) D[k]=v; };
 def('salah',{}); def('sunnah',{}); def('habits',{}); def('streak',0);
 def('journal',[]); def('monthly',{}); def('weekly',{}); def('tasks',[]); def('notes',[]);
@@ -5257,117 +5389,65 @@ const BADGES_DEF = [
 ];
 
 /* ═══════════════════════════════════
-   CLOUD SYNC (Supabase) — optional
-   Xogtu had iyo jeer waxay ku kaydsan tahay localStorage marka hore
-   (si degdeg ah ayey u shaqaysaa), haddii Supabase la dejiyo waxay
-   sidoo kale ku kaydsantaa 'cloud' si aad uga heli karto qalab kale.
+   CLOUD SYNC (Supabase) — otomaatig, si buuxda oo aan loo baahnayn dejin gacanta
+   Xogtu had iyo jeer waxay ku kaydsan tahay localStorage marka hore (si degdeg
+   ah ayey u shaqaysaa); marka la soo gasho (login) waxay sidoo kale si otomaatig
+   ah ugu kaydsantaa Supabase — sync_id-gu waa akoonkaaga (iimaylka), si aad
+   qalab kasta uga heli karto xogtaada marka aad soo gasho.
 ═══════════════════════════════════ */
-let SB_CLIENT = null;
-let SB_PUSH_TIMER = null;
-const SB_CFG_KEY = 'ils_supabase_cfg';
+const SUPABASE_URL = 'https://krqcztgcwngbhyijiff.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_2Ub1BW_SSoOYYVh0AuvtGQ_HtIA2mUk';
+var SB_CLIENT = null;
+var SB_PUSH_TIMER = null;
+var SB_SYNC_ID = null; // la dejiyaa marka la soo gasho (login) - fiiri AUTHENTICATION LOGIC
 
-function sbConfig(){
-  try{ return JSON.parse(localStorage.getItem(SB_CFG_KEY)||'null'); }catch(e){ return null; }
-}
-function sbSaveConfig(url, key, syncId){
-  localStorage.setItem(SB_CFG_KEY, JSON.stringify({url, key, syncId}));
-  SB_CLIENT = null; // force re-init
+// content:// iyo file:// - WebView-yada Android qaarkood way xannibaan fetch() xagga
+// domains-ka dibedda ah marka page-ku ka yimaado protocol-yadan (origin "opaque/null").
+// Marka la ogaado in aan la isticmaalin http/https, si toos ah waxaan u qaadanaa Local Mode,
+// halkii aan isticmaale ka sugin timeout 5-second ah oo ku dhamaanaya "Failed to fetch".
+function isUnsupportedOrigin(){
+  try{
+    var p = location.protocol;
+    return p === 'content:' || p === 'file:' || p === 'blob:' || p === 'data:' || p === 'null:';
+  }catch(e){ return false; }
 }
 function sbClient(){
-  const cfg = sbConfig();
-  if(!cfg || !cfg.url || !cfg.key) return null;
-  if(!window.supabase){ return null; }
-  if(!SB_CLIENT){ SB_CLIENT = window.supabase.createClient(cfg.url, cfg.key); }
+  if(isUnsupportedOrigin()) return null;
+  if(!window.supabase) return null;
+  if(!SB_CLIENT) SB_CLIENT = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   return SB_CLIENT;
 }
-function sbSyncId(){
-  const cfg = sbConfig();
-  return cfg ? cfg.syncId : null;
-}
 function queueCloudPush(){
-  const cfg = sbConfig();
-  if(!cfg) return; // cloud sync not configured, localStorage-only
+  if(!SB_SYNC_ID) return;
   clearTimeout(SB_PUSH_TIMER);
   SB_PUSH_TIMER = setTimeout(pushToCloud, 1500);
 }
-async function pushToCloud(showStatus){
-  const client = sbClient(); const syncId = sbSyncId();
-  if(!client || !syncId){ if(showStatus) sbSetStatus('❌ Supabase lama dejin', 'red'); return; }
-  if(showStatus) sbSetStatus('⏳ U dirista...', 'amber');
+async function pushToCloud(){
+  const client = sbClient();
+  if(!client || !SB_SYNC_ID) return;
   try{
     const { error } = await client.from('app_state').upsert({
-      sync_id: syncId, data: D, updated_at: new Date(D._updated_at||Date.now()).toISOString()
+      sync_id: SB_SYNC_ID, data: D, updated_at: new Date(D._updated_at||Date.now()).toISOString()
     }, { onConflict: 'sync_id' });
-    if(error) throw error;
-    if(showStatus) sbSetStatus('✅ La kaydiyay Supabase '+new Date().toLocaleTimeString(), 'green');
-  }catch(e){
-    console.error('Supabase push failed', e);
-    if(showStatus) sbSetStatus('❌ Khalad: '+(e.message||e), 'red');
-  }
+    if(error) console.error('Supabase push failed', error);
+  }catch(e){ console.error('Supabase push failed', e); }
 }
-async function pullFromCloud(showStatus){
-  const client = sbClient(); const syncId = sbSyncId();
-  if(!client || !syncId){ if(showStatus) sbSetStatus('❌ Supabase lama dejin', 'red'); return; }
-  if(showStatus) sbSetStatus('⏳ Ka soo qaadista...', 'amber');
+async function pullFromCloudSilent(){
+  const client = sbClient();
+  if(!client || !SB_SYNC_ID) return;
   try{
-    const { data, error } = await client.from('app_state').select('data,updated_at').eq('sync_id', syncId).maybeSingle();
+    const { data, error } = await client.from('app_state').select('data,updated_at').eq('sync_id', SB_SYNC_ID).maybeSingle();
     if(error) throw error;
-    if(!data){ if(showStatus) sbSetStatus('ℹ️ Cloud-ka wax kuma jiraan weli', 'amber'); return; }
-    if(!confirm('Xogta cloud-ka ayaa lagu rogayaa mid dhamaan (jaantus hadda ku jira waa la beddelayaa). Sii wad?')) return;
-    localStorage.setItem('noloshayda_v3', JSON.stringify(data.data));
-    if(showStatus) sbSetStatus('✅ Waa la soo qaaday, kolay dib u shubaya...', 'green');
-    setTimeout(()=>location.reload(), 700);
-  }catch(e){
-    console.error('Supabase pull failed', e);
-    if(showStatus) sbSetStatus('❌ Khalad: '+(e.message||e), 'red');
-  }
-}
-function sbSetStatus(msg, color){
-  const el = document.getElementById('sb-status'); if(!el) return;
-  const colors = {green:'#16A34A', red:'#DC2626', amber:'#B45309'};
-  el.textContent = msg; el.style.color = colors[color]||'var(--text2)';
-}
-function sbGenerateId(){
-  return 'sync-'+Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,6);
-}
-function sbConnect(){
-  const url = document.getElementById('sb-url').value.trim();
-  const key = document.getElementById('sb-key').value.trim();
-  let syncId = document.getElementById('sb-syncid').value.trim();
-  if(!url || !key){ alert('Fadlan geli URL-ka iyo Anon Key-ga Supabase!'); return; }
-  if(!syncId) syncId = sbGenerateId();
-  sbSaveConfig(url, key, syncId);
-  document.getElementById('sb-syncid').value = syncId;
-  sbRenderConfigState();
-  sbSetStatus('🔗 Waa la xiray. Riix "U dir" ama "Ka soo qaad" si aad u bilowdo.', 'green');
-}
-function sbDisconnect(){
-  if(!confirm('Ma hubtaa inaad ka go\u2019naanayso Supabase sync-ga? (Xogta localStorage kuma baaba\u2019eyso)')) return;
-  localStorage.removeItem(SB_CFG_KEY);
-  SB_CLIENT = null;
-  sbRenderConfigState();
-  sbSetStatus('Supabase sync waa la joojiyay', 'red');
-}
-function sbRenderConfigState(){
-  const cfg = sbConfig();
-  const badge = document.getElementById('sb-conn-badge');
-  const urlEl = document.getElementById('sb-url');
-  const keyEl = document.getElementById('sb-key');
-  const idEl = document.getElementById('sb-syncid');
-  if(cfg){
-    if(badge){ badge.textContent='🟢 Xiran'; badge.style.color='#16A34A'; }
-    if(urlEl) urlEl.value = cfg.url;
-    if(keyEl) keyEl.value = cfg.key;
-    if(idEl) idEl.value = cfg.syncId;
-  } else {
-    if(badge){ badge.textContent='⚪ Lama xirin'; badge.style.color='var(--text3)'; }
-  }
-}
-function sbCopySyncId(){
-  const id = document.getElementById('sb-syncid').value;
-  if(!id) return;
-  navigator.clipboard?.writeText(id);
-  sbSetStatus('📋 Sync ID waa la koobiyeeyay', 'green');
+    if(!data){ pushToCloud(); return; }
+    const remoteTime = new Date(data.updated_at).getTime();
+    const localTime = D._updated_at || 0;
+    if(remoteTime > localTime + 3000){
+      localStorage.setItem('noloshayda_v3', JSON.stringify(data.data));
+      location.reload();
+    } else if(localTime > remoteTime + 3000){
+      pushToCloud();
+    }
+  }catch(e){ console.warn('Supabase pull skipped:', e.message||e); }
 }
 
 /* ═══════════════════════════════════
@@ -7715,8 +7795,6 @@ function saveRepNote(){
 /* ══════════════════════════════════════════
    WARBIXINTA — CHARTS ENGINE (vanilla SVG, no libs)
 ══════════════════════════════════════════ */
-/* RC_COLORS / RC_PALETTE / RC_VIVID hadda waxay ku yaalliin bilowga script-ka (ka fogow 'Cannot access before initialization') */
-
 if(!D.daily_stats) D.daily_stats={};   // dateKey -> {salahPct,sunnahPct,habitsPct,nadaafadPct,jimicsiPct}
 if(!D.habit_today) D.habit_today={};   // dateKey -> {habitName:true}
 
@@ -7799,7 +7877,6 @@ function snapshotToday(){
 }
 /* ── Full daily/weekly/monthly report data (Prompt V) ── */
 function getDailyReport(dateKey){
-  if(!D.daily_stats) D.daily_stats={};
   dateKey = dateKey || TODAY;
   if(dateKey===TODAY) snapshotToday();
   const isToday = dateKey===TODAY;
@@ -8946,66 +9023,6 @@ function anBuildInsights(){
 }
 function renderAnalyticsHub(){
   snapshotToday();
-  if(rcPreviewMode){
-    const rEl=document.getElementById('an-radar'); if(rEl) rEl.innerHTML=svgRadarChart('an-svg-radar-pv',['Salaad','Sunnah','Caado','Nadaafad','Jimicsi','Quraan'],[91,70,55,80,38,60]);
-    const bhEl=document.getElementById('an-best-habit'); if(bhEl) bhEl.innerHTML=`<div class="an-hab-block">${anHabRing(88,RC_COLORS.green)}<div><div class="an-hab-name">📖 Quraan Akhris</div><div class="an-hab-stat">37/42 maalmood (tusaale)</div></div></div>`;
-    const whEl=document.getElementById('an-worst-habit'); if(whEl) whEl.innerHTML=`<div class="an-hab-block">${anHabRing(29,RC_COLORS.red)}<div><div class="an-hab-name">🏋️ Jimicsi Samee</div><div class="an-hab-stat">12/42 maalmood (tusaale)</div></div></div>`;
-    const mEl=document.getElementById('an-mood-chart'); if(mEl) mEl.innerHTML=svgSparkline('an-svg-mood-pv',[6,7,5,8,7,9,6,7,8,7,9,8,7,9],{max:10,color:RC_COLORS.pink});
-    const wEl=document.getElementById('an-water-chart'); if(wEl) wEl.innerHTML=svgBarChart('an-svg-water-pv',['1','2','3','4','5','6','7','8','9','10','11','12','13','14'],[5,6,8,7,6,8,9,7,6,8,7,9,8,8],{max:12,color:RC_COLORS.blue,grid:true,barRatio:0.72,showVal:true,labelEvery:2});
-    const mkEl=document.getElementById('an-health-kpi-mood'); if(mkEl) mkEl.textContent='7.4/10';
-    const wkEl=document.getElementById('an-health-kpi-water'); if(wkEl) wkEl.textContent='7.3 cups';
-    const hBmiEl=document.getElementById('an-health-kpi-bmi'); if(hBmiEl) hBmiEl.textContent='23.4';
-    const hJimKpiEl=document.getElementById('an-health-kpi-jim'); if(hJimKpiEl) hJimKpiEl.textContent='4/7';
-    const hHeroRingElPV=document.getElementById('hlx-hero-ring'); if(hHeroRingElPV) hHeroRingElPV.innerHTML=svgHeroRing(78);
-    rcSetHTML('hlx-hero-streak','12'); rcSetHTML('hlx-hero-trend','+5%'); rcSetHTML('hlx-hero-forecast','81%');
-    rcSetHTML('hlx-kpi-mood-delta','<span class="up">▲ +0.6</span>');
-    rcSetHTML('hlx-kpi-water-delta','<span class="up">▲ +0.4</span>');
-    rcSetHTML('hlx-kpi-bmi-delta','<span class="down">▼ -0.2</span>');
-    rcSetHTML('hlx-kpi-jim-delta','<span class="up">▲ +1</span>');
-    rcSetHTML('hlx-kpi-weight','76kg'); rcSetHTML('hlx-kpi-weight-delta','<span class="down">▼ -2kg</span>');
-    rcSetHTML('hlx-kpi-logdays','26'); rcSetHTML('hlx-kpi-logdays-delta','<span class="up">▲ +4</span>');
-    const hGoalDonutElPV=document.getElementById('hlx-goal-donut'); if(hGoalDonutElPV) hGoalDonutElPV.innerHTML=svgDonutChart('hlx-svg-goal-pv',[4,2,1],[RC_COLORS.green,RC_COLORS.amber,'#CBD5E1'],{showPct:true,centerText:'4/7'});
-    rcSetHTML('hlx-goal-legend', rcLegend(['Yoolal Buuxa','Qeyb ahaan','Lama gaarin'],[4,2,1],[RC_COLORS.green,RC_COLORS.amber,'#CBD5E1']));
-    const hRadarEl=document.getElementById('an-health-radar'); if(hRadarEl) hRadarEl.innerHTML=svgRadarChart('an-svg-health-radar-pv',['💧 Biyaha','😊 Dareen','🏃 Jimicsi','⚖️ Culay'],[91,74,57,100]);
-    const hWeightEl=document.getElementById('an-weight-chart'); if(hWeightEl) hWeightEl.innerHTML=svgLineChart('an-svg-weight-pv',['1','5','10','15','20','25'],[78,77.5,77,76.6,76.2,76],{color:RC_COLORS.purple});
-    const hJimEl=document.getElementById('an-jim-chart'); if(hJimEl) hJimEl.innerHTML=svgBarChart('an-svg-jim-pv',['4 toddobaad kahor','3 toddobaad kahor','2 toddobaad kahor','Toddobaadkan'],[2,3,3,4],{max:7,color:RC_COLORS.teal,grid:true,showVal:true});
-    rcSetHTML('hlx-cmp-week', hlxCmpRowHTML([{ic:'😊',label:'Dareenka',cur:7.4,prev:6.8},{ic:'💧',label:'Biyaha (koob)',cur:7.3,prev:6.9},{ic:'🏃',label:'Jimicsi (md)',cur:4,prev:3}]));
-    rcSetHTML('hlx-heatstrip', hlxHeatStripHTML(Array.from({length:30},(_,i)=>({key:'pv'+i,level:Math.random()>0.75?0:(Math.random()>0.4?2:1)}))));
-    const hMoodDonutElPV=document.getElementById('hlx-mood-donut'); if(hMoodDonutElPV) hMoodDonutElPV.innerHTML=svgDonutChart('hlx-svg-mooddist-pv',[14,9,5,2],[RC_COLORS.green,RC_COLORS.blue,RC_COLORS.amber,RC_COLORS.red],{showPct:true,centerText:30});
-    rcSetHTML('hlx-mood-legend', rcLegend(['Aad u Fiican','Fiican','Dhexdhexaad','Hoose'],[14,9,5,2],[RC_COLORS.green,RC_COLORS.blue,RC_COLORS.amber,RC_COLORS.red]));
-    rcSetHTML('hlx-bestworst', hlxBestWorstHTML({best:{score:96,date:'07-14 (tusaale)'},worst:{score:38,date:'07-03 (tusaale)'}}));
-    rcSetHTML('hlx-alert-card', '<div class="an-alert an-alert-good">🎉 <div>Dhibcaha caafimaadkaagu waa kordhay <b>5%</b> toddobaadkii tegey (tusaale) — shaqo fiican!</div></div>');
-    const hGoalsEl=document.getElementById('an-health-goals');
-    if(hGoalsEl) hGoalsEl.innerHTML=[{ic:'💧',label:'Biyaha',done:true},{ic:'🏃',label:'Jimicsi',done:true},{ic:'😊',label:'Dareenka',done:false}].map(g=>`<div class="hlx-goal-chip" style="background:${g.done?'#DCFCE7':'var(--bg)'};color:${g.done?'#166534':'var(--text3)'};border:1px solid ${g.done?'#86EFAC':'var(--border)'}">${g.ic} ${g.label} ${g.done?'✅':'—'}</div>`).join('');
-    const hTipsEl=document.getElementById('an-health-tips');
-    if(hTipsEl) hTipsEl.innerHTML='<div class="an-insight-row"><div class="an-insight-em">✅</div><div class="an-insight-body"><div class="an-insight-a">Xogtaada caafimaad way wanaagsan tahay (tusaale) — sii wad habkan!</div></div></div>';
-    rcSetHTML('hg-kpi-overall', '72%');
-    rcSetHTML('hg-kpi-streak', '14');
-    rcSetHTML('hg-kpi-wins', '6');
-    rcSetHTML('hg-kpi-days', '42');
-    rcSetHTML('hg-metric-bars', hgMetricBarsHTML([
-      {ic:'🔥',label:'Salaad',pct:80,color:RC_COLORS.amber},
-      {ic:'🕊️',label:'Sunnah',pct:0,color:RC_COLORS.pink},
-      {ic:'✅',label:'Caado',pct:80,color:RC_COLORS.green},
-      {ic:'🧴',label:'Nadaafad',pct:100,color:RC_COLORS.purple},
-      {ic:'💪',label:'Jimicsi',pct:100,color:RC_COLORS.red},
-      {ic:'📖',label:'Quraan',pct:0,color:RC_COLORS.teal}
-    ]));
-    rcSetHTML('an-hero-overall', '72%');
-    rcSetHTML('an-hero-tier', '🥇 Gold');
-    rcSetHTML('an-hero-trend', '+6%');
-    rcSetHTML('an-cmp-lastweek', '66%');
-    rcSetHTML('an-cmp-thisweek', '72%');
-    rcSetHTML('an-weekly-trend', svgPeriodBarCluster('an-svg-wktrend-pv',['4 toddobaad kahor','3 toddobaad kahor','2 toddobaad kahor','Toddobaadkan'],[58,62,66,72]));
-    const tierPV=anTierFor(72);
-    rcSetHTML('an-tier-card', `<div class="an-tier-card" style="--tc:${tierPV.color}"><div class="an-tier-ic">${tierPV.ic}</div><div><div class="an-tier-name">${tierPV.name}</div><div class="an-tier-desc">${tierPV.desc}</div></div></div>`);
-    rcSetHTML('an-forecast', '76%');
-    rcSetHTML('an-alert-card', '<div class="an-alert an-alert-good">🎉 <div>Waxqabadkaagu wuu kordhay <b>6%</b> toddobaadkii tegey (tusaale) — shaqo fiican!</div></div>');
-    const badgesPV=(typeof getAllBadges==='function')?getAllBadges():[];
-    rcSetHTML('an-badges-grid', badgesPV.length ? badgesPV.map((b,i)=>`<div class="an-badge-chip ${i<3?'earned':'locked'}"><div class="abi">${b.em||'🏅'}</div><div>${b.name||''}</div></div>`).join('') : '<div class="an-empty">Weli abaalmarino lama helin</div>');
-    rcSetHTML('an-overall-assessment', 'Heerka guud ee horumarkaaga waa <b>72%</b> (Gold 🥇). Waxaad ugu fiicantahay <b>📖 Quraan Akhris</b> (tusaale), waxaana u baahan xoojin <b>🏋️ Jimicsi Samee</b>. Horumarkaagu wuu kordhayaa (+6% toddobaadkii tegey). Sii wad dadaalka, natiijooyinku way sii wanaagsanaan doonaan!');
-    return;
-  }
 
   const radarLabels=['Salaad','Sunnah','Caado','Nadaafad','Jimicsi','Quraan'];
   const radarFields=['salahPct','sunnahPct','habitsPct','nadaafadPct','jimicsiPct','quranPct'];
@@ -9520,56 +9537,9 @@ function rcKharashByType(monthKey){
 }
 
 /* ── Main render ── */
-/* ── TUSAALE (Preview) — xog muunad ah oo aan D taaban, si aad u aragto muuqaalka ── */
-let rcPreviewMode = false;
-function toggleRcPreview(){
-  rcPreviewMode = !rcPreviewMode;
-  const btn=document.getElementById('rc-preview-btn');
-  const banner=document.getElementById('rc-preview-banner');
-  if(btn) btn.textContent = rcPreviewMode ? '🔄 Xogta Dhabta ah' : '👁️ Tusaale';
-  if(banner) banner.style.display = rcPreviewMode ? 'block' : 'none';
-  renderReportCharts();
-}
 function rcSetHTML(id, html){ const el=document.getElementById(id); if(el) el.innerHTML=html; }
-function renderReportChartsPreview(){
-  if(typeof renderAnalyticsHub==='function') renderAnalyticsHub();
-  const dayLbl=['Sab','Axd','Isn','Tal','Arb','Kha','Jim'];
-  const salVals=[85,62,72,57,90,45,78];
-  rcSetHTML('an-fin-kpi-kharash', '$520');
-  rcSetHTML('an-fin-kpi-keyd', '$150');
-  rcSetHTML('an-fin-kpi-income', '$900');
-  rcSetHTML('rc-salah-chart', `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
-    ${dayLbl.map((lbl,i)=>`<div style="background:${RC_VIVID[i%7]};border-radius:10px;padding:8px 2px;text-align:center;color:#fff"><div style="font-size:9px;font-weight:700;opacity:.9">${lbl}</div><div style="font-size:14px;font-weight:800;margin-top:2px">${salVals[i]}%</div></div>`).join('')}
-  </div>`);
-
-  const wkLbl=['Isb 1','Isb 2','Isb 3','Isb 4'], wkVals=[95,120,80,60];
-  rcSetHTML('rc-kharash-line', svgBarChart('rc-svg-kline-pv', wkLbl.map((l,i)=>'Isb'+(i+1)), wkVals, {colors:RC_VIVID, grid:true, showVal:true, valFmt:v=>'$'+v}));
-  rcSetHTML('rc-kharash-line-legend', rcLegend(wkLbl, wkVals, RC_VIVID, {showAmount:true}));
-
-  const khLbl=['🍔 Cunto','🚗 Baabuur','🛍️ Shopping','💡 Biil','📦 Kale'], khVals=[35,25,15,12,8];
-  rcSetHTML('rc-kharash-donut', svgDonutChart('rc-svg-kdonut-pv', khVals, RC_VIVID, {showPct:true}));
-  rcSetHTML('rc-kharash-legend', rcLegend(khLbl, khVals, RC_VIVID, {showAmount:true}));
-  rcSetHTML('rc-kharash-bar', svgBarChart('rc-svg-kbar-pv', khLbl.map(l=>l.split(' ')[0]), khVals, {colors:RC_VIVID, grid:true, showVal:true, valFmt:v=>'$'+v}));
-
-  const habLbl=['📖 Quraan Akhris','🌅 Kac Subax 5:00','🤲 Duco & Hadal Wanaagsan','🏋️ Jimicsi Samee',"📚 Wax Faa'iido Leh",'📱 Baraha Bulshada','😴 Hurdo ku Noqoshada','🗣️ Muranka','🔄 Dib u Dhigashada','📵 Waqti Lumiska'], habVals=[18,15,12,10,14,9,7,6,5,4];
-  rcSetHTML('rc-habits-pie', svgDonutChart('rc-svg-hpie-pv', habVals, RC_VIVID, {pie:true, showPct:true, exploded:true}));
-  rcSetHTML('rc-habits-legend', rcLegend(habLbl, habVals, RC_VIVID));
-
-  rcSetHTML('rc-week-cmp', svgBarChart('rc-svg-wcmp-pv', ['Isb-4','Isb-3','Isb-2','Isb-1'], [65,72,58,80], {max:100, colors:RC_VIVID, grid:true, showVal:true, valFmt:v=>v+'%'}));
-  rcSetHTML('rc-month-cmp', svgBarChart('rc-svg-mcmp-pv', ['Mar','Apr','May','Jun','Jul'], [450,320,580,200,750], {colors:RC_VIVID, grid:true, showVal:true, valFmt:v=>'$'+v}));
-
-  rcSetHTML('rc-week-table', `<table style="width:100%;border-collapse:collapse">
-    <tr style="background:#F1F5F9;text-align:left"><th style="padding:6px 8px;border-radius:6px 0 0 6px;font-size:10.5px;color:#475569">Maalin</th><th style="font-size:10.5px;color:#475569">Salaad%</th><th style="border-radius:0 6px 6px 0;font-size:10.5px;color:#475569">Guud%</th></tr>
-    ${dayLbl.map((l,i)=>`<tr style="border-top:1px solid var(--border-l)"><td style="padding:6px 8px;font-weight:700;color:${RC_VIVID[i%7]}">${l}</td><td>${salVals[i]}%</td><td><b>${Math.round(salVals[i]*0.85)}%</b></td></tr>`).join('')}
-  </table>`);
-  rcSetHTML('rc-month-table', `<table style="width:100%;border-collapse:collapse">
-    <tr style="background:#F1F5F9;text-align:left"><th style="padding:6px 8px;border-radius:6px 0 0 6px;font-size:10.5px;color:#475569">Bil</th><th style="border-radius:0 6px 6px 0;font-size:10.5px;color:#475569">Kharash</th></tr>
-    ${['Mar','Apr','May','Jun','Jul'].map((l,i)=>`<tr style="border-top:1px solid var(--border-l)"><td style="padding:6px 8px;font-weight:700;color:${RC_VIVID[i%7]}">${l}</td><td><b>$${[450,320,580,200,750][i]}</b></td></tr>`).join('')}
-  </table>`);
-}
 
 function renderReportCharts(){
-  if(rcPreviewMode){ renderReportChartsPreview(); return; }
   snapshotToday();
   if(typeof renderAnalyticsHub==='function') renderAnalyticsHub();
   const week = rcLast7Days();
@@ -9938,7 +9908,6 @@ function openSettings(){
   const cnt=(D.journal||[]).length+(D.health||[]).length+(D.books||[]).length+(D.fikrad||[]).length+(D.kharash_log||[]).length+(D.keyd_log||[]).length;
   const ceEl=document.getElementById('settings-entry-count');
   if(ceEl)ceEl.querySelector('span:last-child').textContent=cnt+' diiwaanle';
-  sbRenderConfigState();
 }
 
 function adjustStreak(delta){
@@ -17545,28 +17514,8 @@ function filterGlobalArchive(cat, btn){
   renderGlobalArchive();
 }
 
-/* ── Cloud auto-sync on load (silent, last-write-wins) ── */
-(function autoCloudSync(){
-  const cfg = sbConfig();
-  if(!cfg) return; // no cloud configured, localStorage-only mode
-  setTimeout(async ()=>{
-    const client = sbClient(); if(!client) return;
-    try{
-      const { data, error } = await client.from('app_state').select('data,updated_at').eq('sync_id', cfg.syncId).maybeSingle();
-      if(error) throw error;
-      if(!data){ pushToCloud(false); return; } // nothing in cloud yet, push local up
-      const remoteTime = new Date(data.updated_at).getTime();
-      const localTime = D._updated_at || 0;
-      if(remoteTime > localTime + 3000){
-        // cloud has newer data than this device
-        localStorage.setItem('noloshayda_v3', JSON.stringify(data.data));
-        location.reload();
-      } else if(localTime > remoteTime + 3000){
-        pushToCloud(false);
-      }
-    }catch(e){ console.warn('Cloud auto-sync skipped:', e.message||e); }
-  }, 1200);
-})();
+/* Cloud sync now runs automatically from the AUTHENTICATION LOGIC block below,
+   right after login/session-resume sets SB_SYNC_ID to the account's email. */
 
 /* ── DETAILED ANALYSIS FUNCTIONS ── */
 function switchSubTab(button, category, subTab) {
@@ -17641,11 +17590,303 @@ if (document.readyState === 'loading') {
 } else {
   loadAnalysisData();
 }
-const savedPassword = "12345"; 
-  let userPassword = prompt("Fadlan geli Password-ka si aad u gasho Noloshayda-OS:");
-  if (userPassword !== savedPassword) {
-      document.body.innerHTML = "<h2 style='text-align:center; margin-top:20vh; font-family:sans-serif; color:red;'>Waa la diiday gelitaankaaga! Password-ka waa qalad.</h2>";
+</script>
+
+<!-- ══════════ AUTHENTICATION LOGIC ══════════ -->
+<script>
+(function(){
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+  function showMsg(id, text, ok){
+    const el = document.getElementById(id);
+    if(el){
+      el.textContent = (ok ? '\u2705 ' : '\u26a0\ufe0f ') + text;
+      el.className = 'auth-msg ' + (ok ? 'auth-msg-ok' : 'auth-msg-err');
+      el.style.display = 'flex';
+      setTimeout(()=>{ try{ el.scrollIntoView({block:'nearest', behavior:'smooth'}); }catch(e){} }, 30);
+    }
+    if(!ok){ try{ alert(text); }catch(e){} } // khalad kasta - alert() sidoo kale, si aad ugu aragto mobile-ka
   }
+  function hideMsg(id){
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  }
+  function setBusy(formEl, busy, label){
+    const btn = formEl.querySelector('button[type="submit"]');
+    if(!btn) return;
+    if(busy){ btn.dataset.origLabel = btn.textContent; btn.disabled = true; btn.textContent = '\u23f3 ...'; }
+    else { btn.disabled = false; btn.textContent = label || btn.dataset.origLabel || btn.textContent; }
+  }
+
+  window.showAuthTab = function(tab){
+    const regForm = document.getElementById('auth-register-form');
+    const logForm = document.getElementById('auth-login-form');
+    const toLogin = document.getElementById('auth-switch-to-login');
+    const toReg   = document.getElementById('auth-switch-to-register');
+    hideMsg('auth-register-msg'); hideMsg('auth-login-msg');
+    if(tab === 'login'){
+      regForm.style.display = 'none';
+      logForm.style.display = 'block';
+      toLogin.style.display = 'none';
+      toReg.style.display = 'block';
+    } else {
+      regForm.style.display = 'block';
+      logForm.style.display = 'none';
+      toLogin.style.display = 'block';
+      toReg.style.display = 'none';
+    }
+  };
+
+  window.togglePw = function(inputId, iconEl){
+    const inp = document.getElementById(inputId);
+    if(!inp) return;
+    if(inp.type === 'password'){ inp.type = 'text'; iconEl.textContent = '\ud83d\ude48'; }
+    else { inp.type = 'password'; iconEl.textContent = '\ud83d\udc41\ufe0f'; }
+  };
+
+  /* ── AUTHENTICATION LOGIC (real Supabase Auth — accounts live in Supabase Cloud) ── */
+
+  const LOCAL_USERS_KEY   = 'islamicLifeOS_localUsers';
+  const LOCAL_SESSION_KEY = 'islamicLifeOS_localSession';
+
+  function getLocalUsers(){ try{ return JSON.parse(localStorage.getItem(LOCAL_USERS_KEY) || '[]'); }catch(e){ return []; } }
+  function saveLocalUsers(list){ localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(list)); }
+
+  function isOfflineError(err){
+    const m = ((err && err.message) || String(err||'')).toLowerCase();
+    return (err instanceof TypeError) || m.includes('failed to fetch') || m.includes('load failed') ||
+           m.includes('network') || m.includes('networkerror') || m.includes('err_internet') || m.includes('err_name_not_resolved') ||
+           m.includes('timeout');
+  }
+
+  // Xir wakhti ugu badan (5s default) — haddii codsiga Supabase uu ku qafilmo (hang) halkii uu
+  // si degdeg ah u fashilmo, waxaan isaga sameynaa mid "failed to fetch: timeout" oo la mid ah
+  // khaladaadka internetka, si uu si dhab ah loogu dhaqmo Local Mode-ka isla markiiba (5s ugu badan).
+  function withTimeout(promise, ms){
+    ms = ms || 5000;
+    let timer;
+    const timeout = new Promise((_, reject)=>{
+      timer = setTimeout(()=>reject(new Error('Failed to fetch: timeout after '+ms+'ms')), ms);
+    });
+    return Promise.race([promise, timeout]).finally(()=>clearTimeout(timer));
+  }
+
+  // Xidhitaan guud (Supabase account ama offline/local account) — dhammaan waxay ku dhamaadaan halkan
+  function enterApp({ uid, email, name, isLocal }){
+    const authScreen = document.getElementById('authScreen');
+    const dash = document.getElementById('mainDashboard');
+    if(authScreen) authScreen.style.display = 'none';
+    if(dash){ dash.style.pointerEvents = ''; dash.removeAttribute('aria-hidden'); }
+    document.body.style.overflow = '';
+    const nameDisplay = document.getElementById('auth-user-name-display');
+    if(nameDisplay) nameDisplay.textContent = name || email;
+    try{
+      // Offline/local session -> ma jiro auth.uid() dhab ah, marka cloud sync waa la joojiyaa
+      // (xogtu waxay sii kaydsanaysaa localStorage sida caadiga, waxaana la iskudayi doonaa
+      // Supabase marka la xiro internet-ka mar dambe).
+      SB_SYNC_ID = isLocal ? null : uid;
+      if(typeof D!=='object'||!D) window.D = {};
+      D.profile = { name, email, offline: !!isLocal };
+      if(typeof S==='function') S();
+      if(!isLocal && typeof pullFromCloudSilent==='function') setTimeout(pullFromCloudSilent, 800);
+    }catch(e){ console.warn('Post-login sync init skipped', e); }
+  }
+
+  function enterLocalSession(user){
+    const session = { name: user.name, email: user.email, loginAt: new Date().toISOString() };
+    localStorage.setItem(LOCAL_SESSION_KEY, JSON.stringify(session));
+    enterApp({ uid: null, email: user.email, name: user.name, isLocal: true });
+  }
+
+  function registerLocalFallback(form, name, email, pass, reason){
+    reason = reason || 'Internet lama helin';
+    const users = getLocalUsers();
+    if(users.some(u => u.email === email)){
+      showMsg('auth-register-msg', reason + ', oo iimaylkan hore ayaa loogu diiwaan-geliyay qalabkan (offline/local).');
+      return false;
+    }
+    users.push({ name, email, password: pass, createdAt: new Date().toISOString() });
+    saveLocalUsers(users);
+    form.reset();
+    showMsg('auth-register-msg', reason + ' — akoonkaaga waxaa lagu abuuray qalabkan (Local Mode), oo waxaad isla markiiba gasho kartaa dashboard-ka.', true);
+    enterLocalSession({ name, email });
+    return false;
+  }
+
+  function loginLocalFallback(form, email, pass){
+    const users = getLocalUsers();
+    const user = users.find(u => u.email === email && u.password === pass);
+    if(!user){
+      showMsg('auth-login-msg', 'Internet lama helin, oo iimayl/password-kan lagama helin akoonada offline-ka ee qalabkan.');
+      return false;
+    }
+    form.reset();
+    showMsg('auth-login-msg', 'Internet lama helin — waxaa lagu soo gelayaa akoonka offline-ka ee qalabkan.', true);
+    enterLocalSession({ name: user.name, email: user.email });
+    return false;
+  }
+
+  window.handleRegister = async function(e){
+    e.preventDefault();
+    const form  = document.getElementById('auth-register-form');
+    const name  = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('reg-pass').value;
+    const pass2 = document.getElementById('reg-pass2').value;
+
+    if(name.length < 2){ showMsg('auth-register-msg','Magaca waa inuu ka koobnaadaa ugu yaraan 2 xaraf.'); return false; }
+    if(!isValidEmail(email)){ showMsg('auth-register-msg','Fadlan geli iimayl sax ah.'); return false; }
+    if(pass.length < 6){ showMsg('auth-register-msg','Password-ku waa inuu ka koobnaadaa ugu yaraan 6 xaraf.'); return false; }
+    if(pass !== pass2){ showMsg('auth-register-msg','Labada password iskuma mid aha.'); return false; }
+
+    const client = sbClient();
+    if(!client){
+      // SDK-ga Supabase gabi ahaanba lama soo shubin, AMA app-ku wuxuu ka shaqeynayaa
+      // content://, file:// iwm (Local Mode otomaatig ah, si loo iska ilaaliyo "Failed to fetch").
+      const reason = isUnsupportedOrigin()
+        ? 'Faylkan waxaa lagu furay hab aan la xiriirin internetka (ma aha browser caadi ah)'
+        : 'Internet lama helin';
+      return registerLocalFallback(form, name, email, pass, reason);
+    }
+
+    hideMsg('auth-register-msg');
+    setBusy(form, true);
+    let data, error;
+    try{
+      ({ data, error } = await withTimeout(client.auth.signUp({
+        email, password: pass, options: { data: { name } }
+      }), 5000));
+    }catch(ex){
+      setBusy(form, false, '\ud83d\udcdd Is Diiwaan Geli');
+      if(isOfflineError(ex)) return registerLocalFallback(form, name, email, pass);
+      showMsg('auth-register-msg', 'Xiriirka Supabase wuu fashilmay: ' + (ex.message || ex));
+      return false;
+    }
+    setBusy(form, false, '\ud83d\udcdd Is Diiwaan Geli');
+
+    if(error){
+      showMsg('auth-register-msg', error.message || 'Diiwaan-gelintu way fashilantay.');
+      return false;
+    }
+
+    form.reset();
+    if(data.session){
+      // Xaqiijinta iimaylka waa la damiyay mashruucan gudihiisa — waa la geliyaa isla markiiba
+      showMsg('auth-register-msg', 'Akoonka si guul leh ayaa loo sameeyay!', true);
+      afterAuthSuccess(data.session, name);
+    } else {
+      // Mashruucan Supabase wuxuu u baahan yahay xaqiijin iimayl ah kahor login-ka — laakiin
+      // sida shuruudaha "ha joojinin isticmaalaha", waxaan isla markiiba geliyaa dashboard-ka
+      // isaga oo la isticmaalayo Local Mode (halkii loo sugi lahaa email-ka xaqiijinta).
+      // Akoonka Supabase wuu jiraa oo diyaar u ah marka aad xaqiijiso oo aad si caadi ah u soo
+      // gasho — Local Mode-ku waa kaliya inta lagu jiro sugitaanka.
+      registerLocalFallback(form, name, email, pass, 'Akoonka Supabase waa la sameeyay (xaqiijinta iimaylka ayaa weli socota)');
+    }
+    return false;
+  };
+
+  window.handleLogin = async function(e){
+    e.preventDefault();
+    const form  = document.getElementById('auth-login-form');
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('login-pass').value;
+
+    if(!isValidEmail(email) || !pass){
+      showMsg('auth-login-msg','Fadlan buuxi iimaylka iyo password-ka.');
+      return false;
+    }
+
+    const client = sbClient();
+    if(!client){
+      return loginLocalFallback(form, email, pass);
+    } // note: content://-ka waxaa horay loo qabtaa sbClient() dhexdiisa
+
+    hideMsg('auth-login-msg');
+    setBusy(form, true);
+    let data, error;
+    try{
+      ({ data, error } = await withTimeout(client.auth.signInWithPassword({ email, password: pass }), 5000));
+    }catch(ex){
+      setBusy(form, false, '\ud83d\udd13 Soo Gal');
+      if(isOfflineError(ex)) return loginLocalFallback(form, email, pass);
+      showMsg('auth-login-msg', 'Xiriirka Supabase wuu fashilmay: ' + (ex.message || ex));
+      return false;
+    }
+    setBusy(form, false, '\ud83d\udd13 Soo Gal');
+
+    if(error){
+      const friendly = /invalid login credentials/i.test(error.message||'')
+        ? 'Iimayl ama baaswoord ayaa khaldan.'
+        : /email not confirmed/i.test(error.message||'')
+          ? 'Fadlan marka hore xaqiiji iimaylkaaga (fiiri boostadaada).'
+          : (error.message || 'Soo gelitaanku wuu fashilmay.');
+      showMsg('auth-login-msg', friendly);
+      return false;
+    }
+
+    form.reset();
+    afterAuthSuccess(data.session, data.user?.user_metadata?.name || email.split('@')[0]);
+    return false;
+  };
+
+  window.handleLogoutClick = async function(){
+    if(!confirm('Ma hubtaa inaad rabto inaad ka baxdo?')) return;
+    const client = sbClient();
+    try{ if(client) await client.auth.signOut(); }catch(e){ console.error('Sign out failed', e); }
+    localStorage.removeItem(LOCAL_SESSION_KEY);
+    SB_SYNC_ID = null;
+    document.body.style.overflow = '';
+    const authScreen = document.getElementById('authScreen');
+    const dash = document.getElementById('mainDashboard');
+    if(authScreen) authScreen.style.display = 'flex';
+    if(dash){ dash.style.pointerEvents = 'none'; dash.setAttribute('aria-hidden','true'); }
+    const regForm = document.getElementById('auth-register-form');
+    const logForm = document.getElementById('auth-login-form');
+    if(regForm) regForm.reset();
+    if(logForm) logForm.reset();
+    showAuthTab('login');
+  };
+
+  function afterAuthSuccess(session, displayName){
+    if(!session || !session.user) return; // e.g. xaqiijin iimayl ah oo weli la sugayo
+    enterApp({ uid: session.user.id, email: session.user.email, name: displayName || session.user.email, isLocal: false });
+  }
+
+  async function checkSession(){
+    const client = sbClient();
+    const dash = document.getElementById('mainDashboard');
+    if(client){
+      try{
+        const { data } = await withTimeout(client.auth.getSession(), 5000);
+        if(data && data.session && data.session.user){
+          afterAuthSuccess(data.session, data.session.user.user_metadata?.name || data.session.user.email.split('@')[0]);
+          return;
+        }
+      }catch(e){
+        console.warn('Supabase getSession failed, trying local/offline session', e);
+      }
+    }
+    // Fallback: SDK ma jirin, ama fetch-ku wuu fashilmay (offline/content:// URI), ama
+    // sida caadiga ah wax session Supabase ah lama helin — eeg akoon offline ah oo hore
+    // loogu soo gelay qalabkan.
+    try{
+      const localSession = JSON.parse(localStorage.getItem(LOCAL_SESSION_KEY) || 'null');
+      if(localSession && localSession.email){
+        enterApp({ uid: null, email: localSession.email, name: localSession.name, isLocal: true });
+        return;
+      }
+    }catch(e){}
+    if(dash){ dash.style.pointerEvents = 'none'; dash.setAttribute('aria-hidden','true'); }
+  }
+
+  // supabase.js waxaa lagu soo shubay 'defer' — sug ilaa uu diyaar noqdo (ama in muddo la sugay
+  // oo aanu weli iman, tusaale content:// URI oo xannibay CDN-ka) kahor session-ka la hubinayo
+  (function waitForSupabaseThenCheck(attempt){
+    attempt = attempt || 0;
+    if(window.supabase || attempt > 25) checkSession(); // ~1.5s max sugitaan, dabadeed offline fallback
+    else setTimeout(()=>waitForSupabaseThenCheck(attempt+1), 60);
+  })();
+})();
 </script>
 </body>
 </html>
