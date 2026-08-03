@@ -5270,15 +5270,6 @@ html{overflow-wrap:break-word}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script>
-/* ══════════════════════════════════════════
-   CHART COLORS — defined first so they are always
-   available even if a later statement throws
-══════════════════════════════════════════ */
-const RC_COLORS = { amber:'#F59E0B', teal:'#14B8A6', green:'#22C55E', purple:'#8B5CF6', red:'#EF4444', blue:'#3B82F6', gray:'#94A3B8', pink:'#EC4899' };
-const RC_PALETTE = [RC_COLORS.teal, RC_COLORS.amber, RC_COLORS.purple, RC_COLORS.green, RC_COLORS.red, RC_COLORS.blue, RC_COLORS.pink, RC_COLORS.gray];
-// Midabo dhiirran/muuqda (sida sawirrada tusaalaha) — loo isticmaalo bar/pie charts si ay u noqdaan kuwo xiiso badan
-const RC_VIVID = ['#EF4444','#22C55E','#F59E0B','#3B82F6','#EC4899','#8B5CF6','#14B8A6','#F97316','#6366F1','#84CC16'];
-
 /* ═══════════════════════════════════
    STATE + PERSIST
 ═══════════════════════════════════ */
@@ -5395,8 +5386,8 @@ const BADGES_DEF = [
    ah ugu kaydsantaa Supabase — sync_id-gu waa akoonkaaga (iimaylka), si aad
    qalab kasta uga heli karto xogtaada marka aad soo gasho.
 ═══════════════════════════════════ */
-const SUPABASE_URL = 'https://krqcztgcwngbhyijiff.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_2Ub1BW_SSoOYYVh0AuvtGQ_HtIA2mUk';
+const SUPABASE_URL = 'https://gulerlrvckanaskcvoxc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_XEIvVU3Hy_AWWIA6gEA0OQ__lCWg1Nj';
 var SB_CLIENT = null;
 var SB_PUSH_TIMER = null;
 var SB_SYNC_ID = null; // la dejiyaa marka la soo gasho (login) - fiiri AUTHENTICATION LOGIC
@@ -7795,6 +7786,11 @@ function saveRepNote(){
 /* ══════════════════════════════════════════
    WARBIXINTA — CHARTS ENGINE (vanilla SVG, no libs)
 ══════════════════════════════════════════ */
+const RC_COLORS = { amber:'#F59E0B', teal:'#14B8A6', green:'#22C55E', purple:'#8B5CF6', red:'#EF4444', blue:'#3B82F6', gray:'#94A3B8', pink:'#EC4899' };
+const RC_PALETTE = [RC_COLORS.teal, RC_COLORS.amber, RC_COLORS.purple, RC_COLORS.green, RC_COLORS.red, RC_COLORS.blue, RC_COLORS.pink, RC_COLORS.gray];
+// Midabo dhiirran/muuqda (sida sawirrada tusaalaha) — loo isticmaalo bar/pie charts si ay u noqdaan kuwo xiiso badan
+const RC_VIVID = ['#EF4444','#22C55E','#F59E0B','#3B82F6','#EC4899','#8B5CF6','#14B8A6','#F97316','#6366F1','#84CC16'];
+
 if(!D.daily_stats) D.daily_stats={};   // dateKey -> {salahPct,sunnahPct,habitsPct,nadaafadPct,jimicsiPct}
 if(!D.habit_today) D.habit_today={};   // dateKey -> {habitName:true}
 
