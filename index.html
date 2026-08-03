@@ -1404,9 +1404,65 @@ html{overflow-wrap:break-word}
 
 /* ── Shaashadaha waaweyn (≥1600px): booska dhinacyada ha ahaado mid isku dheellitiran,
    halkii bannaan oo aan faa'iido lahayn ── */
-@media(min-width:1600px){
+@media(min-width:1200px){
   .page{padding-left:40px;padding-right:40px}
 }
+
+/* ══════════════════════════════
+   RESPONSIVE LAYER v2 — dheeraad ah (additive, ma bedelayo functionality/xogta)
+   Daboolaya: Tablet (769–1024), Large Desktop (1441+), fluid typography,
+   overflow/media safety nets. Breakpoints:
+   320–480 mobile · 481–768 large-mobile/small-tablet · 769–1024 tablet ·
+   1025–1440 desktop · 1441+ large-desktop
+══════════════════════════════ */
+
+/* ── Media/embeds ma dhaafi karaan container-kooda ── */
+img,svg,video,canvas,iframe{max-width:100%}
+
+/* ── Fluid typography — si tartiib ah ugu kobca/yaraada, halkii ay kala boodi lahaayeen breakpoint kasta ── */
+.hero-nm{font-size:clamp(18px,4vw,26px)}
+.ph h1{font-size:clamp(18px,3.5vw,24px)}
+.card-title{font-size:clamp(12.5px,1.6vw,14px)}
+
+/* ── TABLET (769–1024px): grid-yada desktop-ka ee 3-4-column ah ku koobo 2 tiir
+   si loo helo akhris fudud, halkii ay ku ciriirin lahaayeen ── */
+@media(min-width:769px) and (max-width:1024px){
+  .skill-grid,.book-list,.rep-grid,.health-grid,.day-overall-stats,
+  .result-stats-grid,.an-kpi-row,.hlx-kpi-row,.skx-grid,.stats-row{
+    grid-template-columns:repeat(2,1fr)
+  }
+  .sg,.sun-g{grid-template-columns:repeat(3,1fr)}
+  .an-badge-grid{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+}
+
+/* ── LARGE DESKTOP (1441px+): ha isticmaalin booska bannaan, laakiin ha ka
+   dhigin content-ka mid xad-dhaaf ah oo kala fogaada — kordhi tirada
+   tiirarka grid-yada dhexdhexaadka ah si loo isticmaalo booska ── */
+@media(min-width:1025px){
+  .stats-row{grid-template-columns:repeat(4,1fr)}
+  .an-kpi-row,.hlx-kpi-row{grid-template-columns:repeat(5,1fr)}
+  .result-stats-grid,.health-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:1441px){
+  .an-kpi-row,.hlx-kpi-row{grid-template-columns:repeat(6,1fr)}
+}
+
+/* ── Sidebar/main dheellitir marka la furo shaashad taleefan ah oo horizontal ah
+   (landscape) iyo tablet dhexe — sidebar-ku waa inuusan qaadan booska oo dhan ── */
+@media(min-width:769px){
+  .sidebar{overflow-x:hidden}
+}
+
+/* ── XAL GUUD (root cause): body{display:flex} wuxuu ka dhigayaa #mainDashboard
+   flex-item aan lahayn flex-grow — si kadib uu u koobmo (shrink-to-fit) content-ka
+   halkii uu buuxin lahaa shaashadda. width:100% wuxuu ka saarayaa dhibaatan,
+   isla markaana sax u sameynaya bogagga oo dhan (sida Hawlaha) inay buuxiyaan
+   booska bannaan ee shaashadda, halkii ay bannaan uga tagi lahaayeen dhinaca midig ── */
+#mainDashboard{width:100%;min-width:0}
+
+/* ── Xaqiijin dheeraad ah in aan wax ka baxin viewport-ka ── */
+html,body{max-width:100vw}
+.page{overflow-x:hidden}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
