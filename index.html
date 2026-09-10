@@ -5874,6 +5874,45 @@ let SB_CLIENT = null;
 let SB_PUSH_TIMER = null;
 const SB_CFG_KEY = 'ils_supabase_cfg';
 
+/* ── Helper: si ammaan ah uga soo saar fariinta khaladka (Supabase/Postgrest,
+   network errors, ama wax kasta oo kale) — waxay ka fogaataa "[object Object]" ── */
+function sbErrMsg(e){
+  if(!e) return 'Khalad aan la aqoon';
+  if(typeof e === 'string') return e;
+  // Supabase/PostgREST errors: {message, details, hint, code}
+  if(e.message){
+    let msg = e.message;
+    if(e.details) msg += ' — ' + e.details;
+    if(e.hint) msg += ' (' + e.hint + ')';
+    return msg;
+  }
+  if(e.error_description) return e.error_description;
+  if(e.error) return typeof e.error === 'string' ? e.error : sbErrMsg(e.error);
+  if(!navigator.onLine) return 'Internetka lama xirna — hubi xiriirkaaga';
+  try{
+    const s = JSON.stringify(e);
+    if(s && s !== '{}') return s;
+  }catch(_e){ /* circular ama non-serializable — iska bood */ }
+  try{ return String(e); }catch(_e){ return 'Khalad aan la aqoon'; }
+}
+/* ── Helper: fariin adeer u fahmi karo marka fetch-ku ka fashilmo network/CORS ── */
+function sbFriendlyMsg(e){
+  const raw = sbErrMsg(e);
+  const low = raw.toLowerCase();
+  if(low.includes('failed to fetch') || low.includes('networkerror') || low.includes('load failed')){
+    return 'Ma gaari karo Supabase — hubi (1) internetka, (2) URL-ka/Key-ga saxda ah, (3) haddii aad preview/sandbox ku jirto, isku day marka la deploy-gareeyo (server dhab ah).';
+  }
+  if(low.includes('invalid api key') || low.includes('jwt')){
+    return 'Anon Key-ga waa khaldan yahay ama dhacay — ka hubi Supabase dashboard-ka (Settings → API).';
+  }
+  if(low.includes('relation') && low.includes('does not exist')){
+    return 'Table-ka "app_state" ma jiro Supabase-kaaga — abuur (fiiri hagaha hoose).';
+  }
+  if(low.includes('row-level security') || low.includes('rls') || low.includes('permission denied')){
+    return 'RLS (Row Level Security) ayaa xannibaysa — u ogolow policy INSERT/SELECT/UPDATE ee table-ka app_state.';
+  }
+  return raw;
+}
 function sbConfig(){
   try{ return JSON.parse(localStorage.getItem(SB_CFG_KEY)||'null'); }catch(e){ return null; }
 }
@@ -5884,8 +5923,15 @@ function sbSaveConfig(url, key, syncId){
 function sbClient(){
   const cfg = sbConfig();
   if(!cfg || !cfg.url || !cfg.key) return null;
-  if(!window.supabase){ return null; }
-  if(!SB_CLIENT){ SB_CLIENT = window.supabase.createClient(cfg.url, cfg.key); }
+  if(!window.supabase){ console.warn('Supabase-js weli lama soo shubin (CDN)'); return null; }
+  if(!SB_CLIENT){
+    try{
+      SB_CLIENT = window.supabase.createClient(cfg.url, cfg.key);
+    }catch(e){
+      console.error('Supabase client creation failed:', sbErrMsg(e));
+      return null;
+    }
+  }
   return SB_CLIENT;
 }
 function sbSyncId(){
@@ -5940,7 +5986,8 @@ async function cvLoad(){
         <pre style="white-space:pre-wrap;word-break:break-word;font-size:10.5px;background:var(--bg);border-radius:10px;padding:10px;margin-top:8px;max-height:260px;overflow-y:auto">${JSON.stringify(d, null, 2).replace(/</g,'&lt;')}</pre>
       </details>`;
   }catch(e){
-    body.innerHTML = `<div style="text-align:center;color:#B91C1C;padding:20px 0">❌ Khalad ayaa dhacay: ${(e.message||e)}</div>`;
+    console.error('Cloud viewer load failed:', e);
+    body.innerHTML = `<div style="text-align:center;color:#B91C1C;padding:20px 0">❌ Khalad ayaa dhacay: ${sbFriendlyMsg(e).replace(/</g,'&lt;')}</div>`;
   }
 }
 function queueCloudPush(){
@@ -5951,7 +5998,9 @@ function queueCloudPush(){
 }
 async function pushToCloud(showStatus){
   const client = sbClient(); const syncId = sbSyncId();
-  if(!client || !syncId){ if(showStatus) sbSetStatus('❌ Supabase lama dejin', 'red'); return; }
+  if(!client){ if(showStatus) sbSetStatus('❌ Supabase lama dejin (hubi URL/Key)', 'red'); return; }
+  if(!syncId){ if(showStatus) sbSetStatus('❌ Sync ID ma jiro', 'red'); return; }
+  if(!navigator.onLine){ if(showStatus) sbSetStatus('❌ Internetka lama xirna', 'red'); return; }
   if(showStatus) sbSetStatus('⏳ U dirista...', 'amber');
   try{
     const { error } = await client.from('app_state').upsert({
@@ -5960,13 +6009,15 @@ async function pushToCloud(showStatus){
     if(error) throw error;
     if(showStatus) sbSetStatus('✅ La kaydiyay Supabase '+new Date().toLocaleTimeString(), 'green');
   }catch(e){
-    console.error('Supabase push failed', e);
-    if(showStatus) sbSetStatus('❌ Khalad: '+(e.message||e), 'red');
+    console.error('Supabase push failed:', sbErrMsg(e));
+    if(showStatus) sbSetStatus('❌ '+sbFriendlyMsg(e), 'red');
   }
 }
 async function pullFromCloud(showStatus){
   const client = sbClient(); const syncId = sbSyncId();
-  if(!client || !syncId){ if(showStatus) sbSetStatus('❌ Supabase lama dejin', 'red'); return; }
+  if(!client){ if(showStatus) sbSetStatus('❌ Supabase lama dejin (hubi URL/Key)', 'red'); return; }
+  if(!syncId){ if(showStatus) sbSetStatus('❌ Sync ID ma jiro', 'red'); return; }
+  if(!navigator.onLine){ if(showStatus) sbSetStatus('❌ Internetka lama xirna', 'red'); return; }
   if(showStatus) sbSetStatus('⏳ Ka soo qaadista...', 'amber');
   try{
     const { data, error } = await client.from('app_state').select('data,updated_at').eq('sync_id', syncId).maybeSingle();
@@ -5977,8 +6028,8 @@ async function pullFromCloud(showStatus){
     if(showStatus) sbSetStatus('✅ Waa la soo qaaday, kolay dib u shubaya...', 'green');
     setTimeout(()=>location.reload(), 700);
   }catch(e){
-    console.error('Supabase pull failed', e);
-    if(showStatus) sbSetStatus('❌ Khalad: '+(e.message||e), 'red');
+    console.error('Supabase pull failed:', sbErrMsg(e));
+    if(showStatus) sbSetStatus('❌ '+sbFriendlyMsg(e), 'red');
   }
 }
 function sbSetStatus(msg, color){
@@ -13198,17 +13249,32 @@ document.addEventListener('DOMContentLoaded', ()=>notificationSystem.init());
 
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    try{
-      const swSrcEl = document.getElementById('sw-source');
-      if(!swSrcEl){ console.warn('SW source block lama helin.'); return; }
-      const swBlob = new Blob([swSrcEl.textContent], {type:'text/javascript'});
-      const swUrl = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swUrl, {scope:'./'})
-        .then(()=>console.log('Service Worker (single-file/blob): la diiwaan geliyay ✅'))
-        .catch(err=>console.warn('SW registration failed:', err));
-    }catch(e){
-      console.warn('Blob-based Service Worker lama taageerin browser-kan.', e);
-    }
+    // 1) Isku day marka hore in la diiwaan geliyo faylka DHABTA AH ee sw.js
+    //    (waa habka la taageero browser-yada oo dhan — u baahan yahay in
+    //    sw.js lagu daro isla folder-ka index.html marka la deploy-gareeyo).
+    navigator.serviceWorker.register('./sw.js', {scope:'./'})
+      .then(()=>console.log('Service Worker (sw.js): la diiwaan geliyay ✅'))
+      .catch(err=>{
+        console.warn('sw.js lama helin/diiwaan gelin (normal haddii aad HTML-ka kali ahaan u furayso), isku dayaya blob fallback:', err);
+        // 2) Fallback: haddii sw.js aan la helin (tusaale: HTML-ka faylkiisa
+        //    kali ah oo la furay si toos ah, ama preview/sandbox aan taageerin
+        //    diiwaan gelinta network-fetchable). FIIRO GAAR AH: qaar ka mid ah
+        //    browser-yada casriga ah (Chrome iyo kuwa la mid ah) si toos ah ayay
+        //    u xannibaan diiwaan gelinta Service Worker ee URL-yada 'blob:' —
+        //    haddii taasi dhacdo, offline caching kaliya ayaa la waayi doonaa,
+        //    app-ka intiisa kale wuu shaqeynayaa oo aan wax dhib ah lahayn.
+        try{
+          const swSrcEl = document.getElementById('sw-source');
+          if(!swSrcEl){ console.warn('SW source block lama helin.'); return; }
+          const swBlob = new Blob([swSrcEl.textContent], {type:'text/javascript'});
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl, {scope:'./'})
+            .then(()=>console.log('Service Worker (single-file/blob): la diiwaan geliyay ✅'))
+            .catch(err2=>console.warn('SW registration (blob) failed — offline caching lama heli doono, app-ku si caadi ah ayuu u shaqeyn doonaa:', err2));
+        }catch(e2){
+          console.warn('Blob-based Service Worker lama taageerin browser-kan — offline caching lama heli doono.', e2);
+        }
+      });
   });
 }
 
@@ -21574,6 +21640,7 @@ function filterGlobalArchive(cat, btn){
 async function silentCloudSync(){
   const cfg = sbConfig();
   if(!cfg) return;
+  if(!navigator.onLine){ console.warn('Cloud auto-sync skipped: offline'); return; }
   const client = sbClient(); if(!client) return;
   try{
     const { data, error } = await client.from('app_state').select('data,updated_at').eq('sync_id', cfg.syncId).maybeSingle();
@@ -21588,11 +21655,19 @@ async function silentCloudSync(){
     } else if(localTime > remoteTime + 3000){
       pushToCloud(false);
     }
-  }catch(e){ console.warn('Cloud auto-sync skipped:', e.message||e); }
+  }catch(e){
+    // Ilaalin: qaar ka mid ah khaladaadka network/preview-sandbox (tusaale: DataCloneError
+    // marka fariin internal ah la isku dayo in la postMessage-eeyo Response/Headers object)
+    // kuma imaan xogta app-ka — waa xaddidaad browser/sandbox ah, sidaa darteed halkan
+    // silently ayaan uga fogaanaynaa inaan wax badalno app state-ka.
+    console.warn('Cloud auto-sync skipped:', sbErrMsg(e));
+  }
 }
 (function autoCloudSync(){
   const cfg = sbConfig();
   if(!cfg) return; // no cloud configured, localStorage-only mode (auth-gate hasn't run yet)
+  // Sug in bogga la shubo oo network-ka la hubiyo ka hor intaan isku dayin xiriirka cloud-ka
+  window.addEventListener('online', ()=>{ setTimeout(silentCloudSync, 500); });
   setTimeout(silentCloudSync, 1200);
 })();
 
@@ -21791,7 +21866,12 @@ let AG_CLIENT = null;
 
 function agClient(){
   if(!AG_CLIENT && window.supabase){
-    AG_CLIENT = window.supabase.createClient(AG_SUPABASE_URL, AG_SUPABASE_ANON_KEY);
+    try{
+      AG_CLIENT = window.supabase.createClient(AG_SUPABASE_URL, AG_SUPABASE_ANON_KEY);
+    }catch(e){
+      console.error('Auth client creation failed:', typeof sbErrMsg==='function' ? sbErrMsg(e) : e);
+      return null;
+    }
   }
   return AG_CLIENT;
 }
@@ -21922,6 +22002,7 @@ async function agHandleSignup(e){
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ agShowMsg('Fadlan geli Gmail/Email sax ah.', 'err'); return false; }
   if(pass.length < 6){ agShowMsg('Password-ku waa inuu ka badan yahay 6 xaraf.', 'err'); return false; }
   if(pass !== pass2){ agShowMsg('Labada password isku mid ma aha.', 'err'); return false; }
+  if(!navigator.onLine){ agShowMsg('❌ Internetka lama xirna — hubi xiriirkaaga oo isku day mar kale.', 'err'); return false; }
   const client = agClient();
   if(!client){ agShowMsg('Khalad: Supabase lama helin. Fadlan mar dambe isku day.', 'err'); return false; }
   const btn = document.getElementById('ag-su-btn'); btn.disabled = true; btn.textContent = '⏳ Sugoo...';
@@ -21944,7 +22025,7 @@ async function agHandleSignup(e){
       agShowOtp(email);
     }
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }finally{
     btn.disabled = false; btn.textContent = '📝 Is Diiwaan Geli';
   }
@@ -21957,6 +22038,7 @@ async function agHandleLogin(e){
   const email = document.getElementById('ag-li-email').value.trim();
   const pass = document.getElementById('ag-li-pass').value;
   if(!email || !pass){ agShowMsg('Fadlan buuxi Gmail-ka iyo password-ka.', 'err'); return false; }
+  if(!navigator.onLine){ agShowMsg('❌ Internetka lama xirna — hubi xiriirkaaga oo isku day mar kale.', 'err'); return false; }
   const client = agClient();
   if(!client){ agShowMsg('Khalad: Supabase lama helin. Fadlan mar dambe isku day.', 'err'); return false; }
   const btn = document.getElementById('ag-li-btn'); btn.disabled = true; btn.textContent = '⏳ Sugoo...';
@@ -21977,7 +22059,7 @@ async function agHandleLogin(e){
     agEnterApp(data.user.email);
     if(typeof silentCloudSync === 'function') silentCloudSync();
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }finally{
     btn.disabled = false; btn.textContent = '🔒 Soo Gal';
   }
@@ -21996,7 +22078,7 @@ async function agResendCode(){
     agShowMsg('📩 Code cusub ayaa laguu diray.', 'ok');
     agStartResendTimer();
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }
 }
 // Xaqiiji code-ka — verifyOtp type 'signup' wuxuu si toos ah u soo celiyaa session,
@@ -22025,7 +22107,7 @@ async function agVerifyOtp(e){
     agEnterApp(data.user.email);
     if(typeof silentCloudSync === 'function') silentCloudSync();
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }finally{
     btn.disabled = false; btn.textContent = '✅ Xaqiiji Code-ka';
   }
@@ -22047,7 +22129,7 @@ async function agHandleForgot(e){
     if(error) throw error;
     agShowMsg('📩 Email dib-u-dejin ayaa laguu diray. Fadlan hubi Gmail-kaaga.', 'ok');
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }finally{
     btn.disabled = false; btn.textContent = '📩 Dir Email Dib-u-dejin';
   }
@@ -22081,7 +22163,7 @@ async function agHandleSetNewPassword(e){
     try{ await client.auth.signOut(); }catch(e2){}
     setTimeout(agShowLogin, 1800);
   }catch(err){
-    agShowMsg('❌ ' + (err && err.message ? err.message : 'Khalad ayaa dhacay.'), 'err');
+    console.error('Auth error:', err); agShowMsg('❌ ' + sbFriendlyMsg(err), 'err');
   }finally{
     btn.disabled = false; btn.textContent = '✅ Kaydi Password Cusub';
   }
@@ -22091,7 +22173,7 @@ function agLogout(){
   if(typeof rtUnsubscribe === 'function') rtUnsubscribe();
   if(typeof stopPollSync === 'function') stopPollSync();
   const client = agClient();
-  if(client) client.auth.signOut();
+  if(client){ client.auth.signOut().catch(e=>console.warn('signOut failed:', typeof sbErrMsg==='function'?sbErrMsg(e):e)); }
   try{ localStorage.removeItem('ils_supabase_cfg'); }catch(e){}
   location.reload();
 }
@@ -22251,6 +22333,54 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();
+});
+</script>
+
+<!-- ══════════ DEBUG: Realtime console listener (app_state) ══════════
+     FIIRO GAAR AH: Isla supabase-js CDN-ka horeba waa la soo shubay
+     (fiiri script-ka 'defer' ee kore), sidaa darteed halkan lama soo
+     shubin mar labaad. Waxaan sugnay 'load' event-ka si aan u
+     hubino in window.supabase (library-ga) horeba la soo shubay ka
+     hor intaan la isticmaalin — haddii kale wuxuu ku dhici lahaa
+     khalad "supabase is not defined/undefined". Waxaan sidoo kale
+     beddelay magaca variable-ka 'supabase' -> 'dbgClient' si aan uga
+     fogaano is-tixraaca khaldan ee sababi lahaa
+     "Cannot access 'supabase' before initialization". -->
+<script>
+window.addEventListener('load', ()=>{
+  if(!window.supabase){ console.warn('Debug realtime listener: supabase-js lama helin.'); return; }
+  try{
+    // Isticmaal client-ka HORE ee app-ku horeba abuuray (agClient/sbClient) haddii
+    // uu jiro, halkii aan abuuri lahayn mid CUSUB — sidaas looga fogaanayaa
+    // digniinta "Multiple GoTrueClient instances detected" (labo GoTrueClient oo
+    // isku isticmaala localStorage key-ga auth ee isku mid ah, taasoo sababi karta
+    // dhaqan aan la saadaalin karin marka session-ku isbedelo).
+    let dbgClient = null;
+    if(typeof agClient === 'function') dbgClient = agClient();
+    if(!dbgClient && typeof sbClient === 'function') dbgClient = sbClient();
+    if(!dbgClient){
+      // Fallback: haddii aan client hore la helin, samee mid CUSUB laakiin
+      // persistSession la joojiyay si uusan ugu qasmin auth storage-ka
+      // ee client-yada kale — kani wuxuu kaliya u shaqeeyaa akhris (SELECT).
+      dbgClient = window.supabase.createClient(
+        'https://gulerlrvckanaskcvoxc.supabase.co',
+        'sb_publishable_XEIvVU3Hy_AWWIA6gEA0OQ__lCWg1Nj',
+        { auth: { persistSession: false } }
+      );
+    }
+    dbgClient
+      .channel('realtime-noloshayda-debug')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'app_state' },
+        (payload) => {
+          console.log('Isbeddel cusub ayaa ka dhacay app_state:', payload.new);
+        }
+      )
+      .subscribe();
+  }catch(e){
+    console.warn('Debug realtime listener failed:', e && e.message ? e.message : e);
+  }
 });
 </script>
 </body>
