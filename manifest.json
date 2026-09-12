@@ -1,0 +1,49 @@
+{
+  "name": "HIGSAD",
+  "short_name": "HIGSAD",
+  "description": "HIGSAD — Hagaha Nolosha (Islamic Life OS). Salaad, Quran, Xasuusino, Habit Tracker iyo wax badan oo kale, oo dhamaystiran, offline-na shaqeeya.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#FFF8EE",
+  "theme_color": "#B45309",
+  "lang": "so",
+  "dir": "ltr",
+  "categories": [
+    "lifestyle",
+    "productivity",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
