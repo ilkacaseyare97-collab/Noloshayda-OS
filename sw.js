@@ -16,9 +16,9 @@
    ah, taasi backend push server ayay u baahan tahay.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v1.0.0';
-const APP_CACHE = `noloshayda-singlefile-${CACHE_VERSION}`;
-const RUNTIME_CACHE = `noloshayda-runtime-${CACHE_VERSION}`;
+const CACHE_VERSION = 'v2.0.0';
+const APP_CACHE = `higsad-singlefile-${CACHE_VERSION}`;
+const RUNTIME_CACHE = `higsad-runtime-${CACHE_VERSION}`;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(self.skipWaiting());
@@ -86,6 +86,8 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 // Mustaqbal-hawl — inert ilaa backend/VAPID la daro.
+// Push dhab ah (VAPID/backend) — Supabase Edge Function (send-reminders) +
+// pg_cron ayaa dirta xasuusinta xitaa marka app-ku xidhan yahay gebi ahaanba.
 self.addEventListener('push', (event) => {
   if (!event.data) return;
   try {
@@ -93,6 +95,7 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
       self.registration.showNotification(payload.title || '🕌 HIGSAD', {
         body: payload.body || '',
+        tag: payload.tag || undefined,
         vibrate: [200, 100, 200]
       })
     );
